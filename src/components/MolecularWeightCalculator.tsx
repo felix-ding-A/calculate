@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, RefreshCw, AlertCircle, Grid } from 'lucide-react';
+import { Search, RefreshCw, AlertCircle, Grid, Info, Tag } from 'lucide-react';
 import { parseFormula, PRESET_INGREDIENTS, ATOMIC_WEIGHTS } from '../utils/formulaParser';
 
 export default function MolecularWeightCalculator() {
@@ -23,8 +23,16 @@ export default function MolecularWeightCalculator() {
     setFormula('');
   };
 
+  // Search by English Name, Chinese Name, or Chemical Formula
   const filteredPresets = PRESET_INGREDIENTS.filter(
-    p => p.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) || p.formula.toLowerCase().includes(searchTerm.toLowerCase())
+    p => p.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) || 
+         p.nameCn.toLowerCase().includes(searchTerm.toLowerCase()) || 
+         p.formula.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Automatically find if the typed formula matches any database preset
+  const matchedPreset = PRESET_INGREDIENTS.find(
+    p => p.formula.replace(/\s+/g, '') === formula.replace(/\s+/g, '')
   );
 
   // Calculate element weight percentages for breakdown
@@ -174,6 +182,25 @@ export default function MolecularWeightCalculator() {
                     </div>
                   </div>
 
+                  {/* Matched Ingredient Card (Enhanced search context) */}
+                  {matchedPreset && (
+                    <div style={{ padding: '14px 18px', borderRadius: '12px', background: 'rgba(5, 243, 162, 0.03)', border: '1px solid rgba(5, 243, 162, 0.15)', display: 'flex', gap: '12px' }}>
+                      <Info size={20} style={{ color: 'var(--neon-emerald)', flexShrink: 0, marginTop: '2px' }} />
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                          <strong style={{ color: 'var(--color-primary)' }}>{matchedPreset.nameCn}</strong>
+                          <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>({matchedPreset.nameEn})</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.05)', padding: '2px 6px', borderRadius: '6px', fontSize: '10px', color: 'var(--color-secondary)' }}>
+                            <Tag size={10} /> {matchedPreset.type}
+                          </span>
+                        </div>
+                        <span style={{ color: 'var(--color-secondary)', fontSize: '12px', lineHeight: '1.4' }}>
+                          {matchedPreset.desc}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Element Breakdown Percentages */}
                   <div>
                     <h4 style={{ fontSize: '15px', color: 'var(--color-secondary)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -253,7 +280,7 @@ export default function MolecularWeightCalculator() {
               type="text"
               className="input-glass"
               style={{ paddingLeft: '36px', fontSize: '13px' }}
-              placeholder="Search name, formula..."
+              placeholder="Search name, formula, 中文名..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -278,14 +305,14 @@ export default function MolecularWeightCalculator() {
                   className="glass-panel-hover"
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                    <span style={{ fontWeight: '500' }}>{p.nameEn}</span>
+                    <span style={{ fontWeight: '600', color: 'var(--color-primary)' }}>{p.nameCn}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-muted)' }}>
                     <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--neon-cyan)' }}>{p.formula}</span>
                     <span>MW: {p.mw}</span>
                   </div>
                   <div style={{ fontSize: '10px', color: 'var(--color-muted)', marginTop: '4px', fontStyle: 'italic' }}>
-                    {p.desc}
+                    {p.nameEn}
                   </div>
                 </div>
               ))
