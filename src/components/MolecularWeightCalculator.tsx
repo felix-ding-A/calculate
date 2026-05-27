@@ -280,7 +280,7 @@ export default function MolecularWeightCalculator() {
               type="text"
               className="input-glass"
               style={{ paddingLeft: '36px', fontSize: '13px' }}
-              placeholder="Search name, formula, 中文名..."
+              placeholder="Search name, formula, database..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

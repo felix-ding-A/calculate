@@ -67,8 +67,8 @@ export default function FormulaCalculator() {
   const [suppBatchSize, setSuppBatchSize] = useState<string>('10000'); // units
   const [suppBulkDensity, setSuppBulkDensity] = useState<string>('0.7'); // g/mL
   const [suppActives, setSuppActives] = useState<ActiveIngredient[]>([
-    { id: '1', name: '维生素C (Vitamin C)', targetContent: '100', overageRate: '5' },
-    { id: '2', name: '葡萄糖酸锌', targetContent: '50', overageRate: '2' }
+    { id: '1', name: 'Vitamin C', targetContent: '100', overageRate: '5' },
+    { id: '2', name: 'Zinc Gluconate', targetContent: '50', overageRate: '2' }
   ]);
   const [suppExcipientPcts, setSuppExcipientPcts] = useState<Record<string, string>>({});
 
@@ -255,7 +255,7 @@ export default function FormulaCalculator() {
   const addSuppActive = () => {
     setSuppActives(prev => {
       const nextId = (Math.max(...prev.map(a => parseInt(a.id) || 0), 0) + 1).toString();
-      return [...prev, { id: nextId, name: '新活性成分', targetContent: '50', overageRate: '5' }];
+      return [...prev, { id: nextId, name: 'New Active Ingredient', targetContent: '50', overageRate: '5' }];
     });
   };
 
@@ -299,7 +299,7 @@ export default function FormulaCalculator() {
     let excipientsList: any[] = [];
 
     if (excipientsBudget < 0) {
-      warnings.push(`【配方超载警告】活性成分投料量总计为 ${totalActivesActualW.toFixed(1)}mg，超过了设定的单件重量目标 ${targetW}mg。请增加单件重量或减少活性成分用量。`);
+      warnings.push(`[Formulation Overload Warning] Total active ingredient content is ${totalActivesActualW.toFixed(1)}mg, which exceeds the target weight of ${targetW}mg. Please increase target unit weight or reduce active ingredient dosage.`);
     } else {
       // Distribute excipients
       const template = SUPPLEMENT_TEMPLATES[suppType];
@@ -335,9 +335,9 @@ export default function FormulaCalculator() {
       const fillVolumeMl = (targetW / density) / 1000; // mg / (g/mL) / 1000 = mL
       const recommendedCapsule = CAPSULE_SPECS.find(spec => fillVolumeMl <= spec.volume);
       if (recommendedCapsule) {
-        capsuleAdvice = `根据粉体密度 ${density} g/mL 和单粒装量 ${targetW} mg，计算填充体积为 ${fillVolumeMl.toFixed(3)} mL。推荐选用 ${recommendedCapsule.size} 号胶囊壳 (容量 ${recommendedCapsule.volume} mL，装量范围：${recommendedCapsule.typicalCapacityMin}-${recommendedCapsule.typicalCapacityMax} mg)。`;
+        capsuleAdvice = `Based on bulk density of ${density} g/mL and unit weight of ${targetW} mg, the calculated fill volume is ${fillVolumeMl.toFixed(3)} mL. Recommended capsule size: ${recommendedCapsule.size} (Volume: ${recommendedCapsule.volume} mL, capacity range: ${recommendedCapsule.typicalCapacityMin}-${recommendedCapsule.typicalCapacityMax} mg).`;
       } else {
-        capsuleAdvice = `计算装量体积为 ${fillVolumeMl.toFixed(3)} mL，超出了最大双零号 (#00) 胶囊的容量 (0.95 mL)。请考虑分装于两粒胶囊，或降低单粒装量。`;
+        capsuleAdvice = `Calculated fill volume is ${fillVolumeMl.toFixed(3)} mL, which exceeds the capacity of a #00 capsule (0.95 mL). Consider dividing into two capsules or reducing unit weight.`;
       }
     }
 
@@ -348,7 +348,7 @@ export default function FormulaCalculator() {
       const disintegrantPct = disintegrantItem ? disintegrantItem.pctOfTotal : 0;
       
       const estDisintegrationTime = Math.max(5, Math.min(60, parseFloat((45 - disintegrantPct * 8).toFixed(1))));
-      tabletAdvice = `片剂崩解预测：配方中崩解剂 (交联CMC-Na等) 占比为 ${disintegrantPct.toFixed(1)}%。预计崩解时限约为 ${estDisintegrationTime} 分钟 (标准限值为30分钟内)。`;
+      tabletAdvice = `Tablet Disintegration Prediction: Disintegrant ratio is ${disintegrantPct.toFixed(1)}%. Estimated disintegration time is ~${estDisintegrationTime} minutes (standard limit is within 30 minutes).`;
     }
 
     return {
@@ -385,7 +385,7 @@ export default function FormulaCalculator() {
       });
       
       // Ensure all 4 phases exist
-      ['Phase A (水相)', 'Phase B (油相/乳化)', 'Phase C (功效成分)', 'Phase D (防腐香精)'].forEach(p => {
+      ['Phase A (Water Phase)', 'Phase B (Oil Phase / Emulsification)', 'Phase C (Active Ingredients)', 'Phase D (Preservative & Fragrance)'].forEach(p => {
         if (!mappedPhases[p]) mappedPhases[p] = [];
       });
 
@@ -397,7 +397,7 @@ export default function FormulaCalculator() {
     setCosmeticPhases(prev => {
       const phaseList = prev[phaseName] || [];
       const nextId = `${phaseName}-${Date.now()}`;
-      const newIng: CosmeticPhaseIngredient = { id: nextId, name: '新成分', percentage: '0', type: 'active' };
+      const newIng: CosmeticPhaseIngredient = { id: nextId, name: 'New Ingredient', percentage: '0', type: 'active' };
       return {
         ...prev,
         [phaseName]: [...phaseList, newIng]
@@ -452,13 +452,13 @@ export default function FormulaCalculator() {
       if (limitKey) {
         const limitInfo = REGULATORY_LIMITS[limitKey];
         if (pct > limitInfo.maxUsagePct) {
-          warnings.push(`【法规安全限制】成分 [${ing.name}] 占比为 ${pct}%, 已超出规定安全限量 ${limitInfo.maxUsagePct}% (${limitInfo.ref})。`);
+          warnings.push(`[Regulatory Safety Limit] Ingredient [${ing.name}] at ${pct}% exceeds the safety limit of ${limitInfo.maxUsagePct}% (${limitInfo.ref}).`);
         }
       }
     });
 
     // 2. HLB Required Calculation for Oil Phase
-    const oilPhaseIngredients = cosmeticPhases['Phase B (油相/乳化)'] || [];
+    const oilPhaseIngredients = cosmeticPhases['Phase B (Oil Phase / Emulsification)'] || [];
     let totalOilWeightPct = 0;
     let weightedHlbSum = 0;
     
@@ -510,15 +510,15 @@ export default function FormulaCalculator() {
             const idealHighPct = totalEmulsifierPct * ratioHigh;
             const idealLowPct = totalEmulsifierPct * ratioLow;
 
-            emulsifierAdvice = `油相所需 HLB 值为 ${requiredHlb.toFixed(2)}。系统检测到复配乳化剂 ${highEmulsifier.name.split(' ')[0]} (HLB ${hlbHigh}) 与 ${lowEmulsifier.name.split(' ')[0]} (HLB ${hlbLow})。在总用量 ${totalEmulsifierPct}% 不变的情况下，两者的黄金配比应为：高HLB占 ${(ratioHigh*100).toFixed(1)}%，低HLB占 ${(ratioLow*100).toFixed(1)}%。`;
+            emulsifierAdvice = `Required HLB for oil phase is ${requiredHlb.toFixed(2)}. Blend detected: ${highEmulsifier.name.split(' ')[0]} (HLB ${hlbHigh}) and ${lowEmulsifier.name.split(' ')[0]} (HLB ${hlbLow}). With a total emulsifier percentage of ${totalEmulsifierPct}%, the optimal ratio is: High HLB ${(ratioHigh * 100).toFixed(1)}%, Low HLB ${(ratioLow * 100).toFixed(1)}%.`;
             
             // Expose a helper to autoapply these ratios
             (window as any)._applyOptimalHlb = () => {
-              updateCosmeticIngredient('Phase B (油相/乳化)', highEmulsifier.id, 'percentage', idealHighPct.toFixed(2));
-              updateCosmeticIngredient('Phase B (油相/乳化)', lowEmulsifier.id, 'percentage', idealLowPct.toFixed(2));
+              updateCosmeticIngredient('Phase B (Oil Phase / Emulsification)', highEmulsifier.id, 'percentage', idealHighPct.toFixed(2));
+              updateCosmeticIngredient('Phase B (Oil Phase / Emulsification)', lowEmulsifier.id, 'percentage', idealLowPct.toFixed(2));
             };
           } else {
-            emulsifierAdvice = `油相 Required HLB (${requiredHlb.toFixed(2)}) 超出了复配乳化剂范围 (${hlbLow}-${hlbHigh})。请更换 HLB 值更高或更低的乳化剂。`;
+            emulsifierAdvice = `Required HLB (${requiredHlb.toFixed(2)}) is outside the range of the emulsifier blend (${hlbLow}-${hlbHigh}). Please use emulsifiers with different HLB values.`;
           }
         }
       }
@@ -530,51 +530,51 @@ export default function FormulaCalculator() {
 
     sopSteps.push({
       order: orderNum++,
-      action: '准备反应锅及均质设备',
-      detail: '清洁并消毒搅拌釜与均质器。开启电加热套准备水油相预热。'
+      action: 'Prepare Reaction Vessel & Homogenizer',
+      detail: 'Clean and sanitize mixing vessels and homogenizer. Turn on heating jacket to preheat water/oil phases.'
     });
 
-    if ((cosmeticPhases['Phase A (水相)'] || []).length > 0) {
+    if ((cosmeticPhases['Phase A (Water Phase)'] || []).length > 0) {
       sopSteps.push({
         order: orderNum++,
-        action: '预热并搅拌 Phase A (水相)',
-        detail: `将水相原料加入搅拌釜，加热至 75-80°C，搅拌至增稠剂等辅料完全溶解分散。`
+        action: 'Preheat & Mix Phase A (Water Phase)',
+        detail: `Add water phase ingredients into the mixing vessel, heat to 75-80°C, and stir until thickeners are fully dissolved and dispersed.`
       });
     }
 
-    if ((cosmeticPhases['Phase B (油相/乳化)'] || []).length > 0) {
+    if ((cosmeticPhases['Phase B (Oil Phase / Emulsification)'] || []).length > 0) {
       sopSteps.push({
         order: orderNum++,
-        action: '熔融并预热 Phase B (油相)',
-        detail: `将油脂与乳化剂投入油相锅，加热至 75-80°C，搅拌至全部融化呈均匀澄清液态。`
+        action: 'Melt & Preheat Phase B (Oil Phase)',
+        detail: `Add oils, emollients, and emulsifiers into the oil vessel. Heat to 75-80°C and mix until completely melted and uniform.`
       });
 
       sopSteps.push({
         order: orderNum++,
-        action: '均质乳化 (Emulsification)',
-        detail: `在 75-80°C 下，快速将油相 (Phase B) 冲入水相 (Phase A) 中。启动高剪切均质机，在 3000 rpm 均质 5-10 分钟，使油脂充分剪切，形成细腻的乳化颗粒。`
+        action: 'Homogenization & Emulsification',
+        detail: `At 75-80°C, rapidly add Phase B (Oil Phase) into Phase A (Water Phase). Start the high-shear homogenizer at 3000 rpm and homogenize for 5-10 minutes to form a fine emulsion.`
       });
     }
 
     sopSteps.push({
       order: orderNum++,
-      action: '降温工艺 (Cooling)',
-      detail: '停止均质，转为普通浆式搅拌，缓慢自然降温至 40°C 以下。'
+      action: 'Cooling Process',
+      detail: 'Stop homogenization and switch to anchor paddle mixing. Slowly cool down to below 40°C.'
     });
 
-    if ((cosmeticPhases['Phase C (功效成分)'] || []).length > 0) {
+    if ((cosmeticPhases['Phase C (Active Ingredients)'] || []).length > 0) {
       sopSteps.push({
         order: orderNum++,
-        action: '添加 Phase C (功效成分)',
-        detail: '降温至 35-40°C 时，加入功效活性物，中速搅拌至均匀分布。避免在高温下加入以免活性成分受热失活。'
+        action: 'Add Phase C (Active Ingredients)',
+        detail: 'Add active ingredients at 35-40°C and mix at moderate speed until fully uniform. Avoid adding at high temperatures to prevent active degradation.'
       });
     }
 
-    if ((cosmeticPhases['Phase D (防腐香精)'] || []).length > 0) {
+    if ((cosmeticPhases['Phase D (Preservative & Fragrance)'] || []).length > 0) {
       sopSteps.push({
         order: orderNum++,
-        action: '添加 Phase D (防腐防霉与香精)',
-        detail: '最后加入防腐剂与香精，搅拌 10 分钟确保体系彻底均一。测试 pH 值（一般控制在 5.5-6.5 弱酸性），即可出料装罐。'
+        action: 'Add Phase D (Preservatives & Fragrances)',
+        detail: 'Finally, add preservatives and fragrances. Stir for 10 minutes to ensure homogeneity. Measure pH (ideally weak acidic at 5.5-6.5) before packaging.'
       });
     }
 
@@ -763,11 +763,11 @@ export default function FormulaCalculator() {
                   value={suppType}
                   onChange={(e) => setSuppType(e.target.value)}
                 >
-                  <option value="tablet">片剂 (Tablet)</option>
-                  <option value="capsule">硬胶囊 (Capsule)</option>
-                  <option value="softgel">软胶囊 (Softgel)</option>
-                  <option value="liquid">口服液 (Liquid)</option>
-                  <option value="powder">粉剂 (Powder)</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="capsule">Capsule</option>
+                  <option value="softgel">Softgel</option>
+                  <option value="liquid">Liquid</option>
+                  <option value="powder">Powder</option>
                 </select>
               </div>
             </div>
@@ -942,7 +942,7 @@ export default function FormulaCalculator() {
                 </thead>
                 <tbody>
                   {/* Actives */}
-                  <tr style={{ background: 'rgba(255,255,255,0.02)' }}><td colSpan={4} style={{ padding: '4px 6px', fontSize: '10px', color: 'var(--neon-cyan)', fontWeight: 'bold' }}>活性成分 (Active Ingredients)</td></tr>
+                  <tr style={{ background: 'rgba(255,255,255,0.02)' }}><td colSpan={4} style={{ padding: '4px 6px', fontSize: '10px', color: 'var(--neon-cyan)', fontWeight: 'bold' }}>Active Ingredients</td></tr>
                   {suppReport.calculatedActives.map(a => (
                     <tr key={a.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
                       <td style={{ padding: '6px 4px', fontWeight: '500' }}>{a.name} <span style={{ fontSize: '10px', color: 'var(--color-muted)' }}>({a.overageRate}% overage)</span></td>
@@ -955,7 +955,7 @@ export default function FormulaCalculator() {
                   {/* Excipients */}
                   {suppReport.excipientsList.length > 0 && (
                     <>
-                      <tr style={{ background: 'rgba(255,255,255,0.02)' }}><td colSpan={4} style={{ padding: '4px 6px', fontSize: '10px', color: 'var(--neon-emerald)', fontWeight: 'bold' }}>辅料成分 (Excipient Blend)</td></tr>
+                      <tr style={{ background: 'rgba(255,255,255,0.02)' }}><td colSpan={4} style={{ padding: '4px 6px', fontSize: '10px', color: 'var(--neon-emerald)', fontWeight: 'bold' }}>Excipient Blend</td></tr>
                       {suppReport.excipientsList.map(e => (
                         <tr key={e.nameCn} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
                           <td style={{ padding: '6px 4px', fontWeight: '500' }}>{e.nameCn}</td>
@@ -989,9 +989,9 @@ export default function FormulaCalculator() {
                   value={cosmeticType}
                   onChange={(e) => setCosmeticType(e.target.value)}
                 >
-                  <option value="serum">精华液 (Serum)</option>
-                  <option value="cream">面霜 (Cream)</option>
-                  <option value="lotion">身体乳 (Lotion)</option>
+                  <option value="serum">Serum</option>
+                  <option value="cream">Cream</option>
+                  <option value="lotion">Lotion</option>
                 </select>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <input
@@ -1045,15 +1045,15 @@ export default function FormulaCalculator() {
                         value={ing.type}
                         onChange={(e) => updateCosmeticIngredient(phaseName, ing.id, 'type', e.target.value)}
                       >
-                        <option value="solvent">溶剂 (Solvent)</option>
-                        <option value="humectant">保湿剂 (Humectant)</option>
-                        <option value="thickener">增稠剂 (Thickener)</option>
-                        <option value="emollient">油相/润肤 (Emollient)</option>
-                        <option value="emulsifier">乳化剂 (Emulsifier)</option>
-                        <option value="active">活性成分 (Active)</option>
-                        <option value="preservative">防腐剂 (Preservative)</option>
-                        <option value="fragrance">香精 (Fragrance)</option>
-                        <option value="chelator">螯合剂 (Chelator)</option>
+                        <option value="solvent">Solvent</option>
+                        <option value="humectant">Humectant</option>
+                        <option value="thickener">Thickener</option>
+                        <option value="emollient">Emollient</option>
+                        <option value="emulsifier">Emulsifier</option>
+                        <option value="active">Active</option>
+                        <option value="preservative">Preservative</option>
+                        <option value="fragrance">Fragrance</option>
+                        <option value="chelator">Chelator</option>
                       </select>
 
                       <button
@@ -1103,7 +1103,7 @@ export default function FormulaCalculator() {
             {cosmeticReport.requiredHlb > 0 && (
               <div style={{ padding: '14px', borderRadius: '12px', background: 'rgba(161, 84, 255, 0.04)', border: '1px solid rgba(161, 84, 255, 0.2)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--neon-violet)' }}>油相 Required HLB 求解器</span>
+                  <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--neon-violet)' }}>Oil Phase Required HLB Solver</span>
                   <span className="input-glass-mono" style={{ padding: '2px 6px', borderRadius: '6px', fontSize: '12px', background: 'rgba(0,0,0,0.2)', color: 'var(--neon-cyan)' }}>
                     Req. HLB: {cosmeticReport.requiredHlb}
                   </span>
@@ -1123,12 +1123,12 @@ export default function FormulaCalculator() {
                         }
                       }}
                     >
-                      自动优化比例并应用 (Apply HLB Balance)
+                      Apply Optimal HLB Balance
                     </button>
                   </>
                 ) : (
                   <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>
-                    提示：在 Phase B 中添加一个高 HLB 乳化剂 (如吐温 80) 和一个低 HLB 乳化剂 (如司盘 80)，即可开启自动配比分配。
+                    Tip: Add a high HLB emulsifier (e.g. Tween 80) and a low HLB emulsifier (e.g. Span 80) in Phase B to activate automatic ratio optimization.
                   </p>
                 )}
               </div>
@@ -1136,7 +1136,7 @@ export default function FormulaCalculator() {
 
             {/* SOP details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span className="label-glass" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><BookOpen size={13} /> 配方工艺制备规程 (SOP)</span>
+              <span className="label-glass" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><BookOpen size={13} /> Formulation SOP & Processing Guidelines</span>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {cosmeticReport.sopSteps.map(step => (
@@ -1155,14 +1155,14 @@ export default function FormulaCalculator() {
 
             {/* Material weight table */}
             <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span className="label-glass">实配投料克数表 ({cosmeticWeight} g 样量)</span>
+              <span className="label-glass">Required Raw Material Weight Chart ({cosmeticWeight} g Sample)</span>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid var(--border-glass)', paddingBottom: '6px' }}>
-                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)' }}>原料名称</th>
-                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)' }}>相区</th>
-                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)', textAlign: 'right' }}>比例 (%)</th>
-                    <th style={{ padding: '6px 4px', textAlign: 'right', color: 'var(--neon-cyan)' }}>投料量</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)' }}>Ingredient Name</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)' }}>Phase / Function</th>
+                    <th style={{ padding: '6px 4px', color: 'var(--color-muted)', textAlign: 'right' }}>Ratio (%)</th>
+                    <th style={{ padding: '6px 4px', textAlign: 'right', color: 'var(--neon-cyan)' }}>Batch Amount</th>
                   </tr>
                 </thead>
                 <tbody>

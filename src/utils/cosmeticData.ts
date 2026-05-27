@@ -1,49 +1,49 @@
 /**
- * 化妆品配方 HLB 数据库、法规限制与经典配方模板定义
+ * Cosmetic formulation HLB database, regulatory limits, and classic formulation templates
  */
 
 export interface CosmeticIngredientLimit {
   nameCn: string;
   nameEn: string;
-  maxUsagePct: number; // 法规最大限量百分比 (%)
-  ref: string; // 引用法规
+  maxUsagePct: number; // Regulatory maximum usage percentage (%)
+  ref: string; // Reference regulation
 }
 
-// 常用活性物与防腐剂限值
+// Common actives and preservative limits
 export const REGULATORY_LIMITS: Record<string, CosmeticIngredientLimit> = {
-  'Phenoxyethanol': { nameCn: '苯氧乙醇', nameEn: 'Phenoxyethanol', maxUsagePct: 1.0, ref: '《化妆品安全技术规范》(2015) 防腐剂表' },
-  'Salicylic Acid': { nameCn: '水杨酸', nameEn: 'Salicylic Acid', maxUsagePct: 2.0, ref: '驻留类及淋洗类最大限量 (2.0%)' },
-  'Niacinamide': { nameCn: '烟酰胺', nameEn: 'Niacinamide', maxUsagePct: 5.0, ref: '业界公认温和屏障上限 (5.0%)' },
-  'Retinol': { nameCn: '视黄醇 (A醇)', nameEn: 'Retinol', maxUsagePct: 1.0, ref: '高活性抗衰上限比例' },
-  'Dipotassium Glycyrrhizinate': { nameCn: '甘草酸二钾', nameEn: 'Dipotassium Glycyrrhizinate', maxUsagePct: 0.5, ref: '舒缓抑炎推荐限量 (0.5%)' },
-  'Methylisothiazolinone': { nameCn: '甲基异噻唑啉酮 (MIT)', nameEn: 'Methylisothiazolinone', maxUsagePct: 0.01, ref: '驻留类禁用，淋洗类上限 0.01%' }
+  'Phenoxyethanol': { nameCn: 'Phenoxyethanol', nameEn: 'Phenoxyethanol', maxUsagePct: 1.0, ref: 'Cosmetic Safety Technical Standards (2015) Preservatives List' },
+  'Salicylic Acid': { nameCn: 'Salicylic Acid', nameEn: 'Salicylic Acid', maxUsagePct: 2.0, ref: 'Leave-on & Rinse-off max limit (2.0%)' },
+  'Niacinamide': { nameCn: 'Niacinamide', nameEn: 'Niacinamide', maxUsagePct: 5.0, ref: 'Industry recognized gentle barrier upper limit (5.0%)' },
+  'Retinol': { nameCn: 'Retinol', nameEn: 'Retinol', maxUsagePct: 1.0, ref: 'High active anti-aging upper limit (1.0%)' },
+  'Dipotassium Glycyrrhizinate': { nameCn: 'Dipotassium Glycyrrhizinate', nameEn: 'Dipotassium Glycyrrhizinate', maxUsagePct: 0.5, ref: 'Soothe and anti-inflammatory recommended limit (0.5%)' },
+  'Methylisothiazolinone': { nameCn: 'Methylisothiazolinone', nameEn: 'Methylisothiazolinone', maxUsagePct: 0.01, ref: 'Prohibited in leave-on, max 0.01% in rinse-off' }
 };
 
-// 常见油相的 Required HLB 值
+// Required HLB values of common oil phases
 export const OIL_HLB_VALUES: Record<string, number> = {
-  'GTCC (辛酸/癸酸甘油三酯)': 5.0,
-  '角鲨烷 (Squalane)': 11.0,
-  '鲸蜡醇/鲸蜡硬脂醇': 15.5,
-  '乳木果脂 (Shea Butter)': 8.0,
-  '矿物油 (Mineral Oil)': 10.5,
-  '蜂蜡 (Beeswax)': 12.0,
-  '荷荷巴油 (Jojoba Oil)': 6.5,
-  '甜杏仁油 (Sweet Almond Oil)': 7.0,
-  '橄榄油 (Olive Oil)': 7.0,
-  '异十六烷 (Isohexadecane)': 7.5,
-  '硅油 (Dimethicone / D5)': 7.5
+  'GTCC (Caprylic/Capric Triglyceride)': 5.0,
+  'Squalane': 11.0,
+  'Cetyl/Cetearyl Alcohol': 15.5,
+  'Shea Butter': 8.0,
+  'Mineral Oil': 10.5,
+  'Beeswax': 12.0,
+  'Jojoba Oil': 6.5,
+  'Sweet Almond Oil': 7.0,
+  'Olive Oil': 7.0,
+  'Isohexadecane': 7.5,
+  'Dimethicone / D5': 7.5
 };
 
-// 常用乳化剂的 HLB 值
+// HLB values of common emulsifiers
 export const EMULSIFIER_HLB: Record<string, number> = {
-  '吐温80 (Tween 80)': 15.0,
-  '司盘80 (Span 80)': 4.3,
-  '吐温60 (Tween 60)': 14.9,
-  '司盘60 (Span 60)': 4.7,
-  '吐温20 (Tween 20)': 16.7,
-  '司盘20 (Span 20)': 8.6,
-  '单硬脂酸甘油酯 (GMS)': 3.8,
-  'PEG-100 硬脂酸酯': 18.8,
+  'Tween 80': 15.0,
+  'Span 80': 4.3,
+  'Tween 60': 14.9,
+  'Span 60': 4.7,
+  'Tween 20': 16.7,
+  'Span 20': 8.6,
+  'GMS (Glyceryl Monostearate)': 3.8,
+  'PEG-100 Stearate': 18.8,
   'Montanov 68': 8.0,
   'Montanov 202': 9.0
 };
@@ -58,87 +58,87 @@ export interface CosmeticTemplate {
   name: string;
   nameCn: string;
   phases: Record<string, CosmeticIngredientPreset[]>;
-  targetWeight: number; // 默认小样克数 (g)
+  targetWeight: number; // Default sample weight (g)
   desc: string;
 }
 
-// 经典化妆品配方体系
+// Classic cosmetic formulation systems
 export const COSMETIC_TEMPLATES: Record<string, CosmeticTemplate> = {
   serum: {
     name: 'Standard Hyaluronic & Niacinamide Serum',
-    nameCn: '玻尿酸烟酰胺精华液模板',
+    nameCn: 'Standard Hyaluronic & Niacinamide Serum',
     targetWeight: 100, // 100g
-    desc: 'O/W 水敏性体系。烟酰胺亮肤，高低分子玻尿酸立体保湿，肤感清爽。',
+    desc: 'O/W water-soluble system. Niacinamide brightens skin, high and low molecular weight hyaluronic acid provides multi-dimensional hydration, fresh skin feel.',
     phases: {
-      'Phase A (水相)': [
-        { name: '去离子水 (Deionized Water)', percentage: 86.35, type: 'solvent' },
-        { name: '甘油 (Glycerin)', percentage: 5.0, type: 'humectant' },
-        { name: '丁二醇 (Butylene Glycol)', percentage: 3.0, type: 'humectant' },
-        { name: '黄原胶 (Xanthan Gum)', percentage: 0.15, type: 'thickener' },
-        { name: 'EDTA二钠 (EDTA-2Na)', percentage: 0.05, type: 'chelator' }
+      'Phase A (Water Phase)': [
+        { name: 'Deionized Water', percentage: 86.35, type: 'solvent' },
+        { name: 'Glycerin', percentage: 5.0, type: 'humectant' },
+        { name: 'Butylene Glycol', percentage: 3.0, type: 'humectant' },
+        { name: 'Xanthan Gum', percentage: 0.15, type: 'thickener' },
+        { name: 'EDTA-2Na', percentage: 0.05, type: 'chelator' }
       ],
-      'Phase B (油相/乳化)': [], // 精华液通常无油相
-      'Phase C (功效成分)': [
-        { name: '烟酰胺 (Niacinamide)', percentage: 3.0, type: 'active' },
-        { name: '透明质酸钠 (Sodium Hyaluronate)', percentage: 0.1, type: 'active' },
-        { name: '1,2-己二醇 (1,2-Hexanediol)', percentage: 0.8, type: 'active' }
+      'Phase B (Oil Phase / Emulsification)': [], // Serum typically has no oil phase
+      'Phase C (Active Ingredients)': [
+        { name: 'Niacinamide', percentage: 3.0, type: 'active' },
+        { name: 'Sodium Hyaluronate', percentage: 0.1, type: 'active' },
+        { name: '1,2-Hexanediol', percentage: 0.8, type: 'active' }
       ],
-      'Phase D (防腐香精)': [
-        { name: '苯氧乙醇 (Phenoxyethanol)', percentage: 1.5, type: 'preservative' } // 稍高于限量，供报警测试
+      'Phase D (Preservative & Fragrance)': [
+        { name: 'Phenoxyethanol', percentage: 1.5, type: 'preservative' } // Slightly higher than limit for alert testing
       ]
     }
   },
   cream: {
     name: 'O/W Moisturising Face Cream',
-    nameCn: 'O/W 舒缓保湿面霜模板',
+    nameCn: 'O/W Moisturising Face Cream',
     targetWeight: 50, // 50g
-    desc: '经典的 O/W 面霜乳化体系。GTCC+角鲨烷作为润肤油，采用复配乳化。',
+    desc: 'Classic O/W face cream emulsification system. GTCC + Squalane as emollients, using blended emulsification.',
     phases: {
-      'Phase A (水相)': [
-        { name: '去离子水 (Deionized Water)', percentage: 67.8, type: 'solvent' },
-        { name: '甘油 (Glycerin)', percentage: 5.0, type: 'humectant' },
-        { name: '卡波姆 (Carbomer)', percentage: 0.2, type: 'thickener' }
+      'Phase A (Water Phase)': [
+        { name: 'Deionized Water', percentage: 67.8, type: 'solvent' },
+        { name: 'Glycerin', percentage: 5.0, type: 'humectant' },
+        { name: 'Carbomer', percentage: 0.2, type: 'thickener' }
       ],
-      'Phase B (油相/乳化)': [
-        { name: 'GTCC (辛酸/癸酸甘油三酯)', percentage: 8.0, type: 'emollient' },
-        { name: '角鲨烷 (Squalane)', percentage: 5.0, type: 'emollient' },
-        { name: '鲸蜡硬脂醇', percentage: 2.0, type: 'emollient' },
-        { name: '吐温80 (Tween 80)', percentage: 2.5, type: 'emulsifier' },
-        { name: '司盘80 (Span 80)', percentage: 1.5, type: 'emulsifier' }
+      'Phase B (Oil Phase / Emulsification)': [
+        { name: 'GTCC (Caprylic/Capric Triglyceride)', percentage: 8.0, type: 'emollient' },
+        { name: 'Squalane', percentage: 5.0, type: 'emollient' },
+        { name: 'Cetearyl Alcohol', percentage: 2.0, type: 'emollient' },
+        { name: 'Tween 80', percentage: 2.5, type: 'emulsifier' },
+        { name: 'Span 80', percentage: 1.5, type: 'emulsifier' }
       ],
-      'Phase C (功效成分)': [
-        { name: '天然维生素E (Tocopherol)', percentage: 1.0, type: 'active' },
-        { name: '甘草酸二钾 (Dipotassium Glycyrrhizinate)', percentage: 0.2, type: 'active' }
+      'Phase C (Active Ingredients)': [
+        { name: 'Tocopherol (Vitamin E)', percentage: 1.0, type: 'active' },
+        { name: 'Dipotassium Glycyrrhizinate', percentage: 0.2, type: 'active' }
       ],
-      'Phase D (防腐香精)': [
-        { name: '苯氧乙醇 (Phenoxyethanol)', percentage: 0.6, type: 'preservative' },
-        { name: '香精 (Fragrance)', percentage: 0.2, type: 'fragrance' }
+      'Phase D (Preservative & Fragrance)': [
+        { name: 'Phenoxyethanol', percentage: 0.6, type: 'preservative' },
+        { name: 'Fragrance', percentage: 0.2, type: 'fragrance' }
       ]
     }
   },
   lotion: {
     name: 'O/W Lightweight Body Lotion',
-    nameCn: 'O/W 清爽身体乳液模板',
+    nameCn: 'O/W Lightweight Body Lotion',
     targetWeight: 200, // 200g
-    desc: '极佳铺展性的水包油轻盈乳液，适合大面积涂抹涂敷。',
+    desc: 'Lightweight O/W body lotion with excellent spreadability, suitable for large area application.',
     phases: {
-      'Phase A (水相)': [
-        { name: '去离子水 (Deionized Water)', percentage: 76.5, type: 'solvent' },
-        { name: '丙二醇 (Propylene Glycol)', percentage: 4.0, type: 'humectant' },
-        { name: '黄原胶 (Xanthan Gum)', percentage: 0.1, type: 'thickener' }
+      'Phase A (Water Phase)': [
+        { name: 'Deionized Water', percentage: 76.5, type: 'solvent' },
+        { name: 'Propylene Glycol', percentage: 4.0, type: 'humectant' },
+        { name: 'Xanthan Gum', percentage: 0.1, type: 'thickener' }
       ],
-      'Phase B (油相/乳化)': [
-        { name: '矿物油 (Mineral Oil)', percentage: 10.0, type: 'emollient' },
-        { name: '鲸蜡硬脂醇', percentage: 3.0, type: 'emollient' },
-        { name: '吐温60 (Tween 60)', percentage: 3.5, type: 'emulsifier' },
-        { name: '司盘60 (Span 60)', percentage: 1.5, type: 'emulsifier' }
+      'Phase B (Oil Phase / Emulsification)': [
+        { name: 'Mineral Oil', percentage: 10.0, type: 'emollient' },
+        { name: 'Cetearyl Alcohol', percentage: 3.0, type: 'emollient' },
+        { name: 'Tween 60', percentage: 3.5, type: 'emulsifier' },
+        { name: 'Span 60', percentage: 1.5, type: 'emulsifier' }
       ],
-      'Phase C (功效成分)': [
-        { name: '尿囊素 (Allantoin)', percentage: 0.5, type: 'active' },
-        { name: '泛醇 (Panthenol)', percentage: 0.5, type: 'active' }
+      'Phase C (Active Ingredients)': [
+        { name: 'Allantoin', percentage: 0.5, type: 'active' },
+        { name: 'Panthenol', percentage: 0.5, type: 'active' }
       ],
-      'Phase D (防腐香精)': [
-        { name: '苯氧乙醇 (Phenoxyethanol)', percentage: 0.4, type: 'preservative' }
+      'Phase D (Preservative & Fragrance)': [
+        { name: 'Phenoxyethanol', percentage: 0.4, type: 'preservative' }
       ]
     }
   }

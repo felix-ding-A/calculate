@@ -71,11 +71,11 @@ export default function DilutionCalculator() {
   // STATE: FORMULA SCALING
   // ==========================================
   const [scalingIngredients, setScalingIngredients] = useState<ScalingIngredient[]>([
-    { id: '1', name: '去离子水 (Water)', percentage: '75' },
-    { id: '2', name: '甘油 (Glycerin)', percentage: '10' },
+    { id: '1', name: 'Water', percentage: '75' },
+    { id: '2', name: 'Glycerin', percentage: '10' },
     { id: '3', name: 'GTCC', percentage: '10' },
-    { id: '4', name: '烟酰胺 (Niacinamide)', percentage: '4' },
-    { id: '5', name: '苯氧乙醇 (Phenoxyethanol)', percentage: '1' }
+    { id: '4', name: 'Niacinamide', percentage: '4' },
+    { id: '5', name: 'Phenoxyethanol', percentage: '1' }
   ]);
   const [baseBatchSize, setBaseBatchSize] = useState<string>('100');
   const [baseBatchUnit, setBaseBatchUnit] = useState<string>('g');
@@ -280,7 +280,7 @@ export default function DilutionCalculator() {
       if (matchedLimitKey) {
         const limitInfo = REGULATORY_LIMITS[matchedLimitKey];
         if (pct > limitInfo.maxUsagePct) {
-          warnings.push(`【法规安全警告】成分 [${ing.name}] 百分比为 ${pct}%, 超过国家/欧盟安全限制最大浓度 ${limitInfo.maxUsagePct}% (${limitInfo.ref})。`);
+          warnings.push(`[Regulatory Safety Warning] Ingredient [${ing.name}] at ${pct}% exceeds the safety limit of ${limitInfo.maxUsagePct}% (${limitInfo.ref}).`);
         }
       }
     });
@@ -304,7 +304,7 @@ export default function DilutionCalculator() {
   // Scaling list CRUD helpers
   const addScalingIngredient = () => {
     const nextId = (Math.max(...scalingIngredients.map(i => parseInt(i.id) || 0)) + 1).toString();
-    setScalingIngredients([...scalingIngredients, { id: nextId, name: '新原料成分', percentage: '0' }]);
+    setScalingIngredients([...scalingIngredients, { id: nextId, name: 'New Ingredient', percentage: '0' }]);
   };
 
   const updateScalingIngredient = (id: string, field: 'name' | 'percentage', value: string) => {
@@ -320,22 +320,22 @@ export default function DilutionCalculator() {
   const loadScalingPreset = (presetName: 'serum' | 'cream') => {
     if (presetName === 'serum') {
       setScalingIngredients([
-        { id: '1', name: '去离子水 (Water)', percentage: '86.35' },
-        { id: '2', name: '甘油 (Glycerin)', percentage: '5.0' },
-        { id: '3', name: '丁二醇 (Butylene Glycol)', percentage: '3.0' },
-        { id: '4', name: '烟酰胺 (Niacinamide)', percentage: '4.0' },
-        { id: '5', name: '苯氧乙醇 (Phenoxyethanol)', percentage: '1.5' }, // deliberately triggers phenoxyethanol warning
-        { id: '6', name: '透明质酸钠 (Sodium Hyaluronate)', percentage: '0.15' }
+        { id: '1', name: 'Water', percentage: '86.35' },
+        { id: '2', name: 'Glycerin', percentage: '5.0' },
+        { id: '3', name: 'Butylene Glycol', percentage: '3.0' },
+        { id: '4', name: 'Niacinamide', percentage: '4.0' },
+        { id: '5', name: 'Phenoxyethanol', percentage: '1.5' }, // deliberately triggers phenoxyethanol warning
+        { id: '6', name: 'Sodium Hyaluronate', percentage: '0.15' }
       ]);
     } else {
       setScalingIngredients([
-        { id: '1', name: '去离子水 (Water)', percentage: '67.8' },
-        { id: '2', name: 'GTCC (润肤油)', percentage: '15.0' },
-        { id: '3', name: '鲸蜡硬脂醇 (乳化剂)', percentage: '5.0' },
-        { id: '4', name: '甘油 (保湿)', percentage: '5.0' },
-        { id: '5', name: '烟酰胺 (活性成分)', percentage: '6.0' }, // deliberately triggers niacinamide warning
-        { id: '6', name: '苯氧乙醇 (防腐剂)', percentage: '0.8' },
-        { id: '7', name: '尿囊素 (舒缓)', percentage: '0.4' }
+        { id: '1', name: 'Water', percentage: '67.8' },
+        { id: '2', name: 'GTCC', percentage: '15.0' },
+        { id: '3', name: 'Cetearyl Alcohol', percentage: '5.0' },
+        { id: '4', name: 'Glycerin', percentage: '5.0' },
+        { id: '5', name: 'Niacinamide', percentage: '6.0' }, // deliberately triggers niacinamide warning
+        { id: '6', name: 'Phenoxyethanol', percentage: '0.8' },
+        { id: '7', name: 'Allantoin', percentage: '0.4' }
       ]);
     }
   };

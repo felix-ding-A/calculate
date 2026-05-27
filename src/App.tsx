@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <>
-      {/* 动态霓虹背景光斑 */}
+      {/* Dynamic neon ambient glow */}
       <div className="ambient-bg">
         <div className="glow-orb orb-1"></div>
         <div className="glow-orb orb-2"></div>
@@ -35,9 +35,9 @@ export default function App() {
       </div>
 
       <div className="app-container">
-        {/* 左侧侧边栏导航 */}
+        {/* Left Sidebar Navigation */}
         <aside className="glass-panel" style={sidebarStyle}>
-          {/* Logo 区 */}
+          {/* Logo Section */}
           <div style={logoContainerStyle}>
             <div style={logoIconWrapperStyle}>
               <FlaskConical size={22} style={{ color: 'var(--neon-cyan)' }} />
@@ -52,7 +52,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* 导航菜单 */}
+          {/* Navigation Menu */}
           <nav style={navStyle}>
             <span style={menuLabelStyle}>Calculators List</span>
             
@@ -105,7 +105,7 @@ export default function App() {
             </button>
           </nav>
 
-          {/* 底部信息与帮助 */}
+          {/* Bottom Footer Info & Help */}
           <div style={sidebarFooterStyle}>
             <div style={docLinkStyle} className="glass-panel-hover">
               <BookOpen size={14} style={{ color: 'var(--color-secondary)' }} />
@@ -123,7 +123,7 @@ export default function App() {
           </div>
         </aside>
 
-        {/* 右侧主计算区域 */}
+        {/* Right Main Calculator Area */}
         <main className="glass-panel custom-scrollbar" style={mainAreaStyle}>
           {renderCalculator()}
         </main>

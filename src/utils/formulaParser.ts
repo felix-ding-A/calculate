@@ -1,5 +1,5 @@
 /**
- * 元素周期表原子量数据
+ * Periodic table atomic weight data
  */
 export const ATOMIC_WEIGHTS: Record<string, { weight: number; nameCn: string; nameEn: string }> = {
   'H':  { weight: 1.008,   nameCn: 'Hydrogen', nameEn: 'Hydrogen' },
@@ -67,7 +67,7 @@ export const ATOMIC_WEIGHTS: Record<string, { weight: number; nameCn: string; na
 };
 
 /**
- * 常用成分预设数据库
+ * Common ingredients preset database
  */
 export interface PresetIngredient {
   nameCn: string;
@@ -81,24 +81,24 @@ export interface PresetIngredient {
 
 export const PRESET_INGREDIENTS: PresetIngredient[] = [
   // Supplements
-  { nameCn: '维生素C (抗坏血酸)', nameEn: 'Vitamin C (Ascorbic Acid)', formula: 'C6H8O6', mw: 176.12, category: 'supplement', type: 'Vitamin', desc: '强效抗氧化剂，促进胶原蛋白合成，日推荐量100mg。' },
-  { nameCn: '维生素E (生育酚)', nameEn: 'Vitamin E (Tocopherol)', formula: 'C29H50O2', mw: 430.71, category: 'supplement', type: 'Vitamin', desc: '脂溶性抗氧化剂，保护细胞膜，日推荐量15mg。' },
-  { nameCn: '维生素A (视黄醇)', nameEn: 'Vitamin A (Retinol)', formula: 'C20H30O', mw: 286.45, category: 'supplement', type: 'Vitamin', desc: '维持视觉、皮肤健康及基因转录。' },
-  { nameCn: '维生素D3 (胆钙化醇)', nameEn: 'Vitamin D3 (Cholecalciferol)', formula: 'C27H44O', mw: 384.64, category: 'supplement', type: 'Vitamin', desc: '促进小肠对钙、磷的吸收，维持骨骼健康。' },
-  { nameCn: '辅酶Q10', nameEn: 'Coenzyme Q10', formula: 'C59H90O4', mw: 863.34, category: 'supplement', type: 'Coenzyme', desc: '细胞能量代谢辅酶，强抗氧化，心肌保护，推荐量30-50mg。' },
-  { nameCn: '白藜芦醇', nameEn: 'Resveratrol', formula: 'C14H12O3', mw: 228.24, category: 'supplement', type: 'Polyphenol', desc: '多酚类抗氧化剂，延缓衰老，心血管保护。' },
-  { nameCn: '叶黄素', nameEn: 'Lutein', formula: 'C40H56O2', mw: 568.87, category: 'supplement', type: 'Carotenoid', desc: '保护视网膜黄斑，过滤有害蓝光，日用量约10mg。' },
-  { nameCn: '葡萄糖酸锌', nameEn: 'Zinc Gluconate', formula: 'C12H22O14Zn', mw: 455.68, category: 'supplement', type: 'Mineral', desc: '高效补锌制剂，提升免疫力及组织修复速度。' },
+  { nameCn: 'Vitamin C (Ascorbic Acid)', nameEn: 'Vitamin C (Ascorbic Acid)', formula: 'C6H8O6', mw: 176.12, category: 'supplement', type: 'Vitamin', desc: 'Powerful antioxidant, promotes collagen synthesis, recommended daily dosage 100mg.' },
+  { nameCn: 'Vitamin E (Tocopherol)', nameEn: 'Vitamin E (Tocopherol)', formula: 'C29H50O2', mw: 430.71, category: 'supplement', type: 'Vitamin', desc: 'Lipid-soluble antioxidant, protects cell membranes, recommended daily dosage 15mg.' },
+  { nameCn: 'Vitamin A (Retinol)', nameEn: 'Vitamin A (Retinol)', formula: 'C20H30O', mw: 286.45, category: 'supplement', type: 'Vitamin', desc: 'Maintains vision, skin health, and gene transcription.' },
+  { nameCn: 'Vitamin D3 (Cholecalciferol)', nameEn: 'Vitamin D3 (Cholecalciferol)', formula: 'C27H44O', mw: 384.64, category: 'supplement', type: 'Vitamin', desc: 'Promotes calcium and phosphorus absorption in small intestine, maintains bone health.' },
+  { nameCn: 'Coenzyme Q10', nameEn: 'Coenzyme Q10', formula: 'C59H90O4', mw: 863.34, category: 'supplement', type: 'Coenzyme', desc: 'Cellular energy metabolism coenzyme, strong antioxidant, cardiovascular protection, recommended dosage 30-50mg.' },
+  { nameCn: 'Resveratrol', nameEn: 'Resveratrol', formula: 'C14H12O3', mw: 228.24, category: 'supplement', type: 'Polyphenol', desc: 'Polyphenolic antioxidant, anti-aging, cardiovascular protection.' },
+  { nameCn: 'Lutein', nameEn: 'Lutein', formula: 'C40H56O2', mw: 568.87, category: 'supplement', type: 'Carotenoid', desc: 'Protects retinal macula, filters harmful blue light, recommended daily dosage ~10mg.' },
+  { nameCn: 'Zinc Gluconate', nameEn: 'Zinc Gluconate', formula: 'C12H22O14Zn', mw: 455.68, category: 'supplement', type: 'Mineral', desc: 'High efficiency zinc supplement, enhances immunity and tissue repair.' },
   
   // Cosmetics
-  { nameCn: '烟酰胺', nameEn: 'Niacinamide', formula: 'C6H6N2O', mw: 122.13, category: 'cosmetic', type: 'Active / Sebum Control', desc: '抑制黑色素转移，控油及修护皮肤屏障，推荐比例2-5%。' },
-  { nameCn: '水杨酸', nameEn: 'Salicylic Acid', formula: 'C7H6O3', mw: 138.12, category: 'cosmetic', type: 'Acne Control / Exfoliator', desc: '脂溶性BHA，清理毛孔内油脂与老废角质，法规限量2%。' },
-  { nameCn: '苯氧乙醇', nameEn: 'Phenoxyethanol', formula: 'C8H10O2', mw: 138.16, category: 'cosmetic', type: 'Preservative', desc: '广谱防腐剂，常温稳定。化妆品安全技术规范限量1.0%。' },
-  { nameCn: '甘草酸二钾', nameEn: 'Dipotassium Glycyrrhizinate', formula: 'C42H60K2O16', mw: 899.13, category: 'cosmetic', type: 'Soothing / Anti-inflammatory', desc: '甘草提取物，极佳抗炎舒缓效果，改善皮肤泛红，限量0.5%。' },
-  { nameCn: '透明质酸钠 (单体)', nameEn: 'Sodium Hyaluronate monomer', formula: 'C14H20NNaO11', mw: 401.30, category: 'cosmetic', type: 'Humectant', desc: '天然保湿因子单体结构，吸水保水能力极强。' },
-  { nameCn: '尿囊素', nameEn: 'Allantoin', formula: 'C4H6N4O3', mw: 158.12, category: 'cosmetic', type: 'Repair / Soothing', desc: '促进细胞复活与伤口愈合，舒缓干燥蜕皮，比例0.1-0.5%。' },
-  { nameCn: '腺苷', nameEn: 'Adenosine', formula: 'C10H13N5O4', mw: 267.24, category: 'cosmetic', type: 'Anti-wrinkle', desc: '调理细胞代谢，淡化皱纹，改善弹性。' },
-  { nameCn: '泛醇 (维生素B5)', nameEn: 'Panthenol', formula: 'C9H19NO4', mw: 205.25, category: 'cosmetic', type: 'Humectant / Repair', desc: '深层渗透保湿，促进上皮细胞增殖修护，比例0.5-5%。' }
+  { nameCn: 'Niacinamide', nameEn: 'Niacinamide', formula: 'C6H6N2O', mw: 122.13, category: 'cosmetic', type: 'Active / Sebum Control', desc: 'Inhibits melanin transfer, sebum control, and skin barrier repair. Recommended ratio 2-5%.' },
+  { nameCn: 'Salicylic Acid', nameEn: 'Salicylic Acid', formula: 'C7H6O3', mw: 138.12, category: 'cosmetic', type: 'Acne Control / Exfoliator', desc: 'Lipid-soluble BHA, clears pore lipids and dead skin cells. Regulatory limit 2%.' },
+  { nameCn: 'Phenoxyethanol', nameEn: 'Phenoxyethanol', formula: 'C8H10O2', mw: 138.16, category: 'cosmetic', type: 'Preservative', desc: 'Broad-spectrum preservative, stable at room temp. Safety limit 1.0%.' },
+  { nameCn: 'Dipotassium Glycyrrhizinate', nameEn: 'Dipotassium Glycyrrhizinate', formula: 'C42H60K2O16', mw: 899.13, category: 'cosmetic', type: 'Soothing / Anti-inflammatory', desc: 'Licorice extract with excellent anti-inflammatory and soothing effects. Limit 0.5%.' },
+  { nameCn: 'Sodium Hyaluronate monomer', nameEn: 'Sodium Hyaluronate monomer', formula: 'C14H20NNaO11', mw: 401.30, category: 'cosmetic', type: 'Humectant', desc: 'Natural moisturizing factor monomer structure, high water-binding capacity.' },
+  { nameCn: 'Allantoin', nameEn: 'Allantoin', formula: 'C4H6N4O3', mw: 158.12, category: 'cosmetic', type: 'Repair / Soothing', desc: 'Promotes cell revitalization and wound healing, soothes dry flaking skin. Suggested ratio 0.1-0.5%.' },
+  { nameCn: 'Adenosine', nameEn: 'Adenosine', formula: 'C10H13N5O4', mw: 267.24, category: 'cosmetic', type: 'Anti-wrinkle', desc: 'Regulates cell metabolism, reduces wrinkles, improves elasticity.' },
+  { nameCn: 'Panthenol', nameEn: 'Panthenol', formula: 'C9H19NO4', mw: 205.25, category: 'cosmetic', type: 'Humectant / Repair', desc: 'Deeply penetrating humectant, promotes epithelial cell proliferation and repair. Suggested ratio 0.5-5%.' }
 ];
 
 export interface FormulaParseResult {
@@ -109,7 +109,7 @@ export interface FormulaParseResult {
 }
 
 /**
- * 解析单部分化学式（不含前导系数和括号）
+ * Parses a single chemical formula segment (no leading coefficient, no nested parentheses)
  */
 function parseBasicFormula(tokens: string[]): Record<string, number> {
   const stack: Record<string, number>[] = [{}];
@@ -124,7 +124,7 @@ function parseBasicFormula(tokens: string[]): Record<string, number> {
       const group = stack.pop();
       if (!group) throw new Error('Unbalanced parentheses');
       
-      // 检查右括号后面是否有数字系数
+      // Check if there is a coefficient after the closing parenthesis
       let multiplier = 1;
       if (i + 1 < tokens.length && /^\d+(\.\d+)?$/.test(tokens[i + 1])) {
         multiplier = parseFloat(tokens[i + 1]);
@@ -136,7 +136,7 @@ function parseBasicFormula(tokens: string[]): Record<string, number> {
         parent[elem] = (parent[elem] || 0) + count * multiplier;
       }
     } else if (/^[A-Z][a-z]?$/.test(token)) {
-      // 元素符号
+      // Element symbol
       let count = 1;
       if (i + 1 < tokens.length && /^\d+(\.\d+)?$/.test(tokens[i + 1])) {
         count = parseFloat(tokens[i + 1]);
@@ -156,24 +156,24 @@ function parseBasicFormula(tokens: string[]): Record<string, number> {
 }
 
 /**
- * 主入口：解析任意复杂化学式
- * 支持水合物，如 "CuSO4·5H2O" 或 "2KCl·MgCl2·6H2O"
+ * Main entry point: Parses any complex chemical formula.
+ * Supports hydrates such as "CuSO4·5H2O" or "2KCl·MgCl2·6H2O"
  */
 export function parseFormula(formula: string): FormulaParseResult {
   try {
-    const cleanFormula = formula.replace(/\s+/g, ''); // 去除空格
+    const cleanFormula = formula.replace(/\s+/g, ''); // Remove spaces
     if (!cleanFormula) {
       return { molecularWeight: 0, composition: {}, formula: '', error: 'Input cannot be empty' };
     }
 
-    // 分割水合物点号 (·)
+    // Split hydration dot (·)
     const parts = cleanFormula.split(/[·•.]/);
     const totalComposition: Record<string, number> = {};
 
     for (const part of parts) {
       if (!part) continue;
 
-      // 提取前导系数 (如 5H2O 中的 5)
+      // Extract leading coefficient (e.g., 5 in 5H2O)
       const leadingMatch = part.match(/^(\d+(?:\.\d+)?)/);
       let coefficient = 1;
       let formulaPart = part;
@@ -183,18 +183,18 @@ export function parseFormula(formula: string): FormulaParseResult {
         formulaPart = part.substring(leadingMatch[1].length);
       }
 
-      // 对该部分公式进行分词
-      // 匹配: 大写开头的元素（如 Ca, H）、括号、数字系数
+      // Tokenize formula part
+      // Match: uppercase element symbols (e.g. Ca, H), parentheses, numeric coefficients
       const tokens = formulaPart.match(/[A-Z][a-z]?|\(|\)|\d+(?:\.\d+)?/g) || [];
       const partComposition = parseBasicFormula(tokens);
 
-      // 将该部分计入总组成中
+      // Merge into total composition
       for (const [elem, count] of Object.entries(partComposition)) {
         totalComposition[elem] = (totalComposition[elem] || 0) + count * coefficient;
       }
     }
 
-    // 计算总分子量并校验元素合法性
+    // Calculate total molecular weight and validate element symbols
     let totalMW = 0;
     for (const [elem, count] of Object.entries(totalComposition)) {
       const elementInfo = ATOMIC_WEIGHTS[elem];
@@ -205,7 +205,7 @@ export function parseFormula(formula: string): FormulaParseResult {
     }
 
     return {
-      molecularWeight: Math.round(totalMW * 1000) / 1000, // 保留三位小数
+      molecularWeight: Math.round(totalMW * 1000) / 1000, // Round to 3 decimal places
       composition: totalComposition,
       formula: cleanFormula
     };
