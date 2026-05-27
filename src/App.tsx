@@ -44,17 +44,17 @@ export default function App() {
             </div>
             <div style={logoTextStyle}>
               <h1 style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '-0.3px', margin: 0 }} className="glow-title">
-                Selleck Formulator
+                Pure Formulator
               </h1>
               <span style={{ fontSize: '10px', color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                配方计算系统 v1.0
+                Formulation Engine v1.0
               </span>
             </div>
           </div>
 
           {/* 导航菜单 */}
           <nav style={navStyle}>
-            <span style={menuLabelStyle}>计算工具清单</span>
+            <span style={menuLabelStyle}>Calculators List</span>
             
             <button
               onClick={() => setActiveCalc('molarity')}
@@ -63,8 +63,8 @@ export default function App() {
             >
               <Layers size={18} style={{ color: activeCalc === 'molarity' ? 'var(--neon-cyan)' : 'var(--color-secondary)' }} />
               <div style={navTextContainer}>
-                <span style={navTitleStyle(activeCalc === 'molarity')}>摩尔浓度计算</span>
-                <span style={navSubtitleStyle}>质量-体积-浓度互算</span>
+                <span style={navTitleStyle(activeCalc === 'molarity')}>Molarity Calculator</span>
+                <span style={navSubtitleStyle}>Mass - Vol - Conc Solver</span>
               </div>
             </button>
 
@@ -75,8 +75,8 @@ export default function App() {
             >
               <TrendingDown size={18} style={{ color: activeCalc === 'dilution' ? 'var(--neon-violet)' : 'var(--color-secondary)' }} />
               <div style={navTextContainer}>
-                <span style={navTitleStyle(activeCalc === 'dilution')}>稀释计算器</span>
-                <span style={navSubtitleStyle}>C1V1稀释与梯度稀释</span>
+                <span style={navTitleStyle(activeCalc === 'dilution')}>Dilution Calculator</span>
+                <span style={navSubtitleStyle}>C1V1 & Serial Dilution</span>
               </div>
             </button>
 
@@ -87,8 +87,8 @@ export default function App() {
             >
               <Calculator size={18} style={{ color: activeCalc === 'mw' ? 'var(--neon-emerald)' : 'var(--color-secondary)' }} />
               <div style={navTextContainer}>
-                <span style={navTitleStyle(activeCalc === 'mw')}>分子量计算器</span>
-                <span style={navSubtitleStyle}>化学式自动解析求重</span>
+                <span style={navTitleStyle(activeCalc === 'mw')}>Molecular Weight</span>
+                <span style={navSubtitleStyle}>Formula Parser & Analyzer</span>
               </div>
             </button>
 
@@ -99,8 +99,8 @@ export default function App() {
             >
               <FlaskConical size={18} style={{ color: activeCalc === 'formula' ? 'var(--neon-rose)' : 'var(--color-secondary)' }} />
               <div style={navTextContainer}>
-                <span style={navTitleStyle(activeCalc === 'formula')}>配方配制计算</span>
-                <span style={navSubtitleStyle}>多相复配与制备SOP</span>
+                <span style={navTitleStyle(activeCalc === 'formula')}>Formulation SOP</span>
+                <span style={navSubtitleStyle}>Multi-Solvent & SOP Guide</span>
               </div>
             </button>
           </nav>
@@ -110,16 +110,15 @@ export default function App() {
             <div style={docLinkStyle} className="glass-panel-hover">
               <BookOpen size={14} style={{ color: 'var(--color-secondary)' }} />
               <a
-                href="file:///e:/03-Web_code/calculate/selleck_%E9%85%8D%E6%96%B9%E8%AE%A1%E7%AE%97%E5%99%A8%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3.md"
-                target="_blank"
-                rel="noreferrer"
+                href="#"
+                onClick={(e) => e.preventDefault()}
                 style={{ color: 'var(--color-secondary)', textDecoration: 'none', fontSize: '12px' }}
               >
-                查看研发设计文档
+                Documentation & Help
               </a>
             </div>
             <p style={{ fontSize: '11px', color: 'var(--color-muted)', textAlign: 'center', marginTop: '10px' }}>
-              © 2026 Selleck Inc. Pure Frontend
+              © 2026 Pure Formulator. All rights reserved.
             </p>
           </div>
         </aside>

@@ -57,7 +57,7 @@ export default function MolarityCalculator() {
     try {
       if (target === 'mass') {
         if (isNaN(cVal) || isNaN(vVal) || isNaN(mwVal)) return;
-        if (cVal <= 0 || vVal <= 0 || mwVal <= 0) throw new Error('浓度、体积和分子量必须大于 0');
+        if (cVal <= 0 || vVal <= 0 || mwVal <= 0) throw new Error('Concentration, Volume, and Molecular Weight must be greater than 0');
         const C_SI = cVal * getSIFactor('conc', concUnit);
         const V_SI = vVal * getSIFactor('volume', volumeUnit);
         const mass_g = C_SI * V_SI * mwVal;
@@ -65,11 +65,11 @@ export default function MolarityCalculator() {
         // Convert mass_g to target unit
         const mass_target = mass_g / getSIFactor('mass', massUnit);
         setMass(formatResult(mass_target));
-        setFormulaString(`质量 = 浓度 × 体体积 × 分子量 = ${cVal} ${concUnit} × ${vVal} ${volumeUnit} × ${mwVal} g/mol`);
+        setFormulaString(`Mass = Concentration × Volume × MW = ${cVal} ${concUnit} × ${vVal} ${volumeUnit} × ${mwVal} g/mol`);
       }
       else if (target === 'conc') {
         if (isNaN(mVal) || isNaN(vVal) || isNaN(mwVal)) return;
-        if (mVal <= 0 || vVal <= 0 || mwVal <= 0) throw new Error('质量、体积和分子量必须大于 0');
+        if (mVal <= 0 || vVal <= 0 || mwVal <= 0) throw new Error('Mass, Volume, and Molecular Weight must be greater than 0');
 
         const mass_g = mVal * getSIFactor('mass', massUnit);
         const V_SI = vVal * getSIFactor('volume', volumeUnit);
@@ -77,11 +77,11 @@ export default function MolarityCalculator() {
 
         const conc_target = conc_M / getSIFactor('conc', concUnit);
         setConc(formatResult(conc_target));
-        setFormulaString(`浓度 = 质量 / (体积 × 分子量) = ${mVal} ${massUnit} / (${vVal} ${volumeUnit} × ${mwVal} g/mol)`);
+        setFormulaString(`Concentration = Mass / (Volume × MW) = ${mVal} ${massUnit} / (${vVal} ${volumeUnit} × ${mwVal} g/mol)`);
       }
       else if (target === 'volume') {
         if (isNaN(mVal) || isNaN(cVal) || isNaN(mwVal)) return;
-        if (mVal <= 0 || cVal <= 0 || mwVal <= 0) throw new Error('质量、浓度和分子量必须大于 0');
+        if (mVal <= 0 || cVal <= 0 || mwVal <= 0) throw new Error('Mass, Concentration, and Molecular Weight must be greater than 0');
 
         const mass_g = mVal * getSIFactor('mass', massUnit);
         const C_SI = cVal * getSIFactor('conc', concUnit);
@@ -89,11 +89,11 @@ export default function MolarityCalculator() {
 
         const volume_target = volume_L / getSIFactor('volume', volumeUnit);
         setVolume(formatResult(volume_target));
-        setFormulaString(`体积 = 质量 / (浓度 × 分子量) = ${mVal} ${massUnit} / (${cVal} ${concUnit} × ${mwVal} g/mol)`);
+        setFormulaString(`Volume = Mass / (Concentration × MW) = ${mVal} ${massUnit} / (${cVal} ${concUnit} × ${mwVal} g/mol)`);
       }
       else if (target === 'mw') {
         if (isNaN(mVal) || isNaN(cVal) || isNaN(vVal)) return;
-        if (mVal <= 0 || cVal <= 0 || vVal <= 0) throw new Error('质量、浓度和体积必须大于 0');
+        if (mVal <= 0 || cVal <= 0 || vVal <= 0) throw new Error('Mass, Concentration, and Volume must be greater than 0');
 
         const mass_g = mVal * getSIFactor('mass', massUnit);
         const C_SI = cVal * getSIFactor('conc', concUnit);
@@ -101,7 +101,7 @@ export default function MolarityCalculator() {
         const mw_calc = mass_g / (C_SI * V_SI);
 
         setMw(formatResult(mw_calc));
-        setFormulaString(`分子量 = 质量 / (浓度 × 体积) = ${mVal} ${massUnit} / (${cVal} ${concUnit} × ${vVal} ${volumeUnit})`);
+        setFormulaString(`Molecular Weight = Mass / (Concentration × Volume) = ${mVal} ${massUnit} / (${cVal} ${concUnit} × ${vVal} ${volumeUnit})`);
       }
     } catch (e: any) {
       setError(e.message);
@@ -170,13 +170,13 @@ export default function MolarityCalculator() {
     <div className="calculator-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>摩尔浓度计算器</h2>
+          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>Molarity Calculator</h2>
           <p style={{ color: 'var(--color-secondary)', fontSize: '14px', textAlign: 'left', marginTop: '4px' }}>
-            质量 - 浓度 - 体积 - 分子量四元互算，支持自动单位量级转换
+            Solve for Mass, Concentration, Volume, or Molecular Weight with automated scale conversion
           </p>
         </div>
         <button className="btn btn-glass" onClick={handleReset}>
-          <RefreshCw size={16} /> 重置
+          <RefreshCw size={16} /> Reset
         </button>
       </div>
 
@@ -187,19 +187,19 @@ export default function MolarityCalculator() {
 
           {/* Mode Selector */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '14px', color: 'var(--color-secondary)' }}>计算目标:</span>
+            <span style={{ fontSize: '14px', color: 'var(--color-secondary)' }}>Target:</span>
             <div className="tabs-container">
-              <button className={`tab-btn ${target === 'mass' ? 'active' : ''}`} onClick={() => setTarget('mass')}>溶质质量 (m)</button>
-              <button className={`tab-btn ${target === 'conc' ? 'active' : ''}`} onClick={() => setTarget('conc')}>溶液浓度 (C)</button>
-              <button className={`tab-btn ${target === 'volume' ? 'active' : ''}`} onClick={() => setTarget('volume')}>溶液体积 (V)</button>
-              <button className={`tab-btn ${target === 'mw' ? 'active' : ''}`} onClick={() => setTarget('mw')}>分子量 (M)</button>
+              <button className={`tab-btn ${target === 'mass' ? 'active' : ''}`} onClick={() => setTarget('mass')}>Solute Mass (m)</button>
+              <button className={`tab-btn ${target === 'conc' ? 'active' : ''}`} onClick={() => setTarget('conc')}>Concentration (C)</button>
+              <button className={`tab-btn ${target === 'volume' ? 'active' : ''}`} onClick={() => setTarget('volume')}>Volume (V)</button>
+              <button className={`tab-btn ${target === 'mw' ? 'active' : ''}`} onClick={() => setTarget('mw')}>Mol. Weight (M)</button>
             </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             {/* Input Row: Mass */}
             <div className={`param-card ${target === 'mass' ? 'target-active' : ''}`} style={paramCardStyle(target === 'mass')}>
-              <label className="label-glass">溶质质量 (m)</label>
+              <label className="label-glass">Solute Mass (m)</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="number"
@@ -207,7 +207,7 @@ export default function MolarityCalculator() {
                   value={mass}
                   onChange={(e) => setMass(e.target.value)}
                   disabled={target === 'mass'}
-                  placeholder="计算所得..."
+                  placeholder="Calculated..."
                 />
                 <select
                   className="input-glass select-glass"
@@ -222,7 +222,7 @@ export default function MolarityCalculator() {
 
             {/* Input Row: Concentration */}
             <div className={`param-card ${target === 'conc' ? 'target-active' : ''}`} style={paramCardStyle(target === 'conc')}>
-              <label className="label-glass">溶液浓度 (C)</label>
+              <label className="label-glass">Concentration (C)</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="number"
@@ -230,7 +230,7 @@ export default function MolarityCalculator() {
                   value={conc}
                   onChange={(e) => setConc(e.target.value)}
                   disabled={target === 'conc'}
-                  placeholder="计算所得..."
+                  placeholder="Calculated..."
                 />
                 <select
                   className="input-glass select-glass"
@@ -245,7 +245,7 @@ export default function MolarityCalculator() {
 
             {/* Input Row: Volume */}
             <div className={`param-card ${target === 'volume' ? 'target-active' : ''}`} style={paramCardStyle(target === 'volume')}>
-              <label className="label-glass">溶液体积 (V)</label>
+              <label className="label-glass">Volume (V)</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="number"
@@ -253,7 +253,7 @@ export default function MolarityCalculator() {
                   value={volume}
                   onChange={(e) => setVolume(e.target.value)}
                   disabled={target === 'volume'}
-                  placeholder="计算所得..."
+                  placeholder="Calculated..."
                 />
                 <select
                   className="input-glass select-glass"
@@ -268,7 +268,7 @@ export default function MolarityCalculator() {
 
             {/* Input Row: Molecular Weight */}
             <div className={`param-card ${target === 'mw' ? 'target-active' : ''}`} style={paramCardStyle(target === 'mw')}>
-              <label className="label-glass">分子量 (M)</label>
+              <label className="label-glass">Mol. Weight (M)</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="number"
@@ -276,7 +276,7 @@ export default function MolarityCalculator() {
                   value={mw}
                   onChange={(e) => setMw(e.target.value)}
                   disabled={target === 'mw'}
-                  placeholder="输入或选择预设..."
+                  placeholder="Enter or select preset..."
                 />
                 <span className="input-glass" style={{ width: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', fontSize: '13px', color: 'var(--color-secondary)' }}>
                   g/mol
@@ -288,13 +288,13 @@ export default function MolarityCalculator() {
           {/* Dynamic Formula Display */}
           <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: '16px', marginTop: '10px' }}>
             <span className="label-glass" style={{ marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <HelpCircle size={14} /> 计算推导与公式
+              <HelpCircle size={14} /> Calculation Details & Formulas
             </span>
             <div className="input-glass-mono" style={{ background: 'rgba(0,0,0,0.2)', padding: '14px', borderRadius: '10px', fontSize: '13px', color: 'var(--color-primary)', border: '1px solid rgba(255,255,255,0.03)', overflowX: 'auto', whiteSpace: 'nowrap' }}>
               <div style={{ display: 'flex', gap: '16px', marginBottom: '8px', borderBottom: '1px dashed rgba(255,255,255,0.05)', paddingBottom: '8px' }}>
-                <span>标准公式: <strong style={{ color: 'var(--neon-cyan)' }}>m = C × V × M</strong></span>
+                <span>Base Formula: <strong style={{ color: 'var(--neon-cyan)' }}>m = C × V × M</strong></span>
                 <span style={{ opacity: 0.5 }}>|</span>
-                <span>推导公式: 
+                <span>Derived Formula: 
                   {target === 'mass' && <strong style={{ color: 'var(--neon-cyan)' }}> m = C × V × M</strong>}
                   {target === 'conc' && <strong style={{ color: 'var(--neon-cyan)' }}> C = m / (V × M)</strong>}
                   {target === 'volume' && <strong style={{ color: 'var(--neon-cyan)' }}> V = m / (C × M)</strong>}
@@ -311,13 +311,13 @@ export default function MolarityCalculator() {
         {/* Right Sidebar: Preset List */}
         <div className="glass-panel custom-scrollbar" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', height: '100%', maxHeight: '420px', overflowY: 'auto' }}>
           <h3 style={{ fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }} className="glow-title">
-            <Zap size={16} /> 常用原料预设
+            <Zap size={16} /> Common Presets
           </h3>
-          <p style={{ fontSize: '12px', color: 'var(--color-secondary)' }}>点击预设快速填入分子量：</p>
+          <p style={{ fontSize: '12px', color: 'var(--color-secondary)' }}>Click to load molecular weight:</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {PRESET_INGREDIENTS.map(p => (
               <div
-                key={p.nameCn}
+                key={p.nameEn}
                 onClick={() => loadPreset(p)}
                 style={{
                   padding: '8px 12px',
@@ -331,7 +331,7 @@ export default function MolarityCalculator() {
                 className="glass-panel-hover"
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                  <span style={{ fontWeight: '500' }}>{p.nameCn.split(' ')[0]}</span>
+                  <span style={{ fontWeight: '500' }}>{p.nameEn}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--neon-cyan)' }}>{p.mw}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-muted)' }}>

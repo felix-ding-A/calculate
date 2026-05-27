@@ -24,7 +24,7 @@ export default function MolecularWeightCalculator() {
   };
 
   const filteredPresets = PRESET_INGREDIENTS.filter(
-    p => p.nameCn.includes(searchTerm) || p.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) || p.formula.toLowerCase().includes(searchTerm.toLowerCase())
+    p => p.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) || p.formula.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Calculate element weight percentages for breakdown
@@ -39,7 +39,7 @@ export default function MolecularWeightCalculator() {
       
       return {
         element,
-        nameCn: atomInfo?.nameCn || '未知',
+        nameCn: atomInfo?.nameCn || 'Unknown',
         nameEn: atomInfo?.nameEn || 'Unknown',
         count,
         atomicWeight: atomW,
@@ -58,13 +58,13 @@ export default function MolecularWeightCalculator() {
     <div className="calculator-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>分子量计算器</h2>
+          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>Molecular Weight Calculator</h2>
           <p style={{ color: 'var(--color-secondary)', fontSize: '14px', textAlign: 'left', marginTop: '4px' }}>
-            智能解析复杂化学式（支持水合物、括号嵌套），分析元素重量占比
+            Parse complex chemical formulas (hydrates, nested brackets) and analyze element weight percentages
           </p>
         </div>
         <button className="btn btn-glass" onClick={() => setFormula('C10H16N2O2')}>
-          <RefreshCw size={16} /> 重置
+          <RefreshCw size={16} /> Reset
         </button>
       </div>
 
@@ -74,7 +74,7 @@ export default function MolecularWeightCalculator() {
           {/* Formula Input Panel */}
           <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <label className="label-glass">请输入化学分子式</label>
+              <label className="label-glass">Enter Chemical Formula</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="text"
@@ -82,7 +82,7 @@ export default function MolecularWeightCalculator() {
                   style={{ fontSize: '20px', padding: '12px 16px' }}
                   value={formula}
                   onChange={(e) => setFormula(e.target.value)}
-                  placeholder="例如: Ca(OH)2 或 CuSO4·5H2O"
+                  placeholder="e.g. Ca(OH)2 or CuSO4·5H2O"
                 />
               </div>
             </div>
@@ -90,7 +90,7 @@ export default function MolecularWeightCalculator() {
             {/* Virtual chemical keyboard (very useful in labs) */}
             <div>
               <span className="label-glass" style={{ fontSize: '11px', color: 'var(--color-muted)', marginBottom: '8px' }}>
-                实验室虚拟小键盘 (方便手套或触屏操作)
+                Laboratory Virtual Keyboard (for touchscreens or glove operations)
               </span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {['C', 'H', 'O', 'N', 'P', 'S', 'Na', 'Cl', 'K', 'Ca', 'Mg', 'Fe', 'Cu', 'Zn', '(', ')', '·', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].map(char => (
@@ -127,7 +127,7 @@ export default function MolecularWeightCalculator() {
                     minWidth: '60px'
                   }}
                 >
-                  退格
+                  Back
                 </button>
                 <button
                   onClick={handleClear}
@@ -142,7 +142,7 @@ export default function MolecularWeightCalculator() {
                     minWidth: '60px'
                   }}
                 >
-                  清空
+                  Clear
                 </button>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function MolecularWeightCalculator() {
                 <div className="alert-glass alert-glass-danger" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <AlertCircle size={18} />
                   <div>
-                    <strong>化学式解析失败：</strong> {mwResult.error}
+                    <strong>Formula parsing failed:</strong> {mwResult.error}
                   </div>
                 </div>
               ) : (
@@ -163,11 +163,11 @@ export default function MolecularWeightCalculator() {
                   {/* Molecular Weight Display */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-glass)', paddingBottom: '16px' }}>
                     <div>
-                      <span className="label-glass" style={{ marginBottom: '4px' }}>解析化学分子式</span>
+                      <span className="label-glass" style={{ marginBottom: '4px' }}>Parsed Formula</span>
                       <strong style={{ fontSize: '24px', fontFamily: 'var(--font-mono)', color: 'var(--color-primary)' }}>{mwResult.formula}</strong>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <span className="label-glass" style={{ marginBottom: '4px' }}>计算分子量 (Molecular Weight)</span>
+                      <span className="label-glass" style={{ marginBottom: '4px' }}>Calculated Molecular Weight</span>
                       <strong style={{ fontSize: '32px', fontFamily: 'var(--font-mono)', color: 'var(--neon-cyan)', textShadow: '0 0 15px rgba(0, 242, 254, 0.4)' }}>
                         {mwResult.molecularWeight} <span style={{ fontSize: '16px', fontWeight: '500', color: 'var(--color-secondary)' }}>g/mol</span>
                       </strong>
@@ -177,7 +177,7 @@ export default function MolecularWeightCalculator() {
                   {/* Element Breakdown Percentages */}
                   <div>
                     <h4 style={{ fontSize: '15px', color: 'var(--color-secondary)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Grid size={15} /> 元素组成占比分析 (Weight % Breakdown)
+                      <Grid size={15} /> Element Mass Percentage Breakdown
                     </h4>
                     
                     {/* Visual stacked bar chart */}
@@ -194,7 +194,7 @@ export default function MolecularWeightCalculator() {
                               height: '100%',
                               transition: 'all 0.3s ease-in-out'
                             }}
-                            title={`${item.element} (${item.nameCn}): ${item.percentage}%`}
+                            title={`${item.element} (${item.nameEn}): ${item.percentage}%`}
                           />
                         );
                       })}
@@ -223,15 +223,15 @@ export default function MolecularWeightCalculator() {
                               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: col }} />
                                 <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '15px' }}>{item.element}</strong>
-                                <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>{item.nameCn} / {item.nameEn}</span>
+                                <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>{item.nameEn}</span>
                               </div>
                               <span style={{ fontSize: '14px', fontWeight: 'bold', color: col }}>{item.percentage}%</span>
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--color-secondary)' }}>
-                              <span>个数: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.count}</strong></span>
-                              <span>原子量: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.atomicWeight}</strong></span>
-                              <span>分质量: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.subtotal}</strong></span>
+                              <span>Count: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.count}</strong></span>
+                              <span>At. Wt: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.atomicWeight}</strong></span>
+                              <span>Mass: <strong style={{ fontFamily: 'var(--font-mono)' }}>{item.subtotal}</strong></span>
                             </div>
                           </div>
                         );
@@ -246,14 +246,14 @@ export default function MolecularWeightCalculator() {
 
         {/* Right Preset Search list */}
         <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', height: '100%', maxHeight: '550px' }}>
-          <h3 style={{ fontSize: '16px' }} className="glow-title">成分化学式数据库</h3>
+          <h3 style={{ fontSize: '16px' }} className="glow-title">Formula Database</h3>
           
           <div style={{ position: 'relative' }}>
             <input
               type="text"
               className="input-glass"
               style={{ paddingLeft: '36px', fontSize: '13px' }}
-              placeholder="搜索名称, 拼音, 化学式..."
+              placeholder="Search name, formula..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -264,7 +264,7 @@ export default function MolecularWeightCalculator() {
             {filteredPresets.length > 0 ? (
               filteredPresets.map(p => (
                 <div
-                  key={p.nameCn}
+                  key={p.nameEn}
                   onClick={() => setFormula(p.formula)}
                   style={{
                     padding: '10px',
@@ -278,7 +278,7 @@ export default function MolecularWeightCalculator() {
                   className="glass-panel-hover"
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                    <span style={{ fontWeight: '500' }}>{p.nameCn}</span>
+                    <span style={{ fontWeight: '500' }}>{p.nameEn}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--color-muted)' }}>
                     <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--neon-cyan)' }}>{p.formula}</span>
@@ -291,7 +291,7 @@ export default function MolecularWeightCalculator() {
               ))
             ) : (
               <div style={{ textAlign: 'center', color: 'var(--color-muted)', fontSize: '12px', marginTop: '20px' }}>
-                无匹配数据
+                No matching data
               </div>
             )}
           </div>

@@ -123,7 +123,7 @@ export default function DilutionCalculator() {
     const isMixedSystem = uC1 && uC2 && (uC1.type !== uC2.type);
 
     if (isMixedSystem && (!mwVal || isNaN(mwVal) || mwVal <= 0)) {
-      setStdError('进行摩尔浓度与质量浓度跨系统换算时，必须输入有效的分子量');
+      setStdError('Valid Molecular Weight must be provided for cross-system concentration conversion.');
       return;
     }
 
@@ -134,7 +134,7 @@ export default function DilutionCalculator() {
 
       if (target === 'v1') {
         if (isNaN(c1Val) || isNaN(c2Val) || isNaN(v2Val)) return;
-        if (c1Val <= 0 || c2Val <= 0 || v2Val <= 0) throw new Error('浓度和体积必须大于 0');
+        if (c1Val <= 0 || c2Val <= 0 || v2Val <= 0) throw new Error('Concentration and Volume must be greater than 0');
 
         const c1Base = convertConcToBase(c1Val, c1Unit, mwVal);
         const c2Base = convertConcToBase(c2Val, c2Unit, mwVal);
@@ -145,7 +145,7 @@ export default function DilutionCalculator() {
         const v1_target = v1L / fV1;
 
         if (v1_target > v2Val * (fV2 / fV1)) {
-          throw new Error('计算所得初始体积(V1)大于目标体积(V2)，稀释比例不合逻辑，请检查浓度设定');
+          throw new Error('Calculated initial volume (V₁) is greater than final volume (V₂). Dilution ratio is illogical; check concentration settings.');
         }
 
         setV1(formatResult(v1_target));
@@ -154,11 +154,11 @@ export default function DilutionCalculator() {
         // Practical Operation Guide
         const v1_display = formatResult(v1_target);
         const solvent_vol = (v2L - v1L) / fV2;
-        setStdOperation(`量取 ${v1_display} ${v1Unit} 初始溶液，加入 ${formatResult(solvent_vol)} ${v2Unit} 稀释溶剂中，混匀即可配制出 ${v2Val} ${v2Unit} 的目标溶液。`);
+        setStdOperation(`Transfer ${v1_display} ${v1Unit} of initial solution into ${formatResult(solvent_vol)} ${v2Unit} of diluent to prepare the final ${v2Val} ${v2Unit} solution.`);
       }
       else if (target === 'v2') {
         if (isNaN(c1Val) || isNaN(v1Val) || isNaN(c2Val)) return;
-        if (c1Val <= 0 || v1Val <= 0 || c2Val <= 0) throw new Error('浓度和体积必须大于 0');
+        if (c1Val <= 0 || v1Val <= 0 || c2Val <= 0) throw new Error('Concentration and Volume must be greater than 0');
 
         const c1Base = convertConcToBase(c1Val, c1Unit, mwVal);
         const c2Base = convertConcToBase(c2Val, c2Unit, mwVal);
@@ -169,18 +169,18 @@ export default function DilutionCalculator() {
         const v2_target = v2L / fV2;
 
         if (v2_target < v1Val * (fV1 / fV2)) {
-          throw new Error('计算所得目标体积(V2)小于初始体积(V1)，无需稀释，请检查浓度设定');
+          throw new Error('Calculated final volume (V₂) is smaller than initial volume (V₁). No dilution needed; check concentration settings.');
         }
 
         setV2(formatResult(v2_target));
         setStdFormula(`V₂ = (C₁ × V₁) / C₂ = (${c1Val} ${c1Unit} × ${v1Val} ${v1Unit}) / ${c2Val} ${c2Unit}`);
         
         const solvent_vol = (v2L - v1L) / fV2;
-        setStdOperation(`量取 ${v1Val} ${v1Unit} 初始溶液，加入 ${formatResult(solvent_vol)} ${v2Unit} 稀释溶剂（使总体积达到 ${formatResult(v2_target)} ${v2Unit}），即可配制完成。`);
+        setStdOperation(`Transfer ${v1Val} ${v1Unit} of initial solution into ${formatResult(solvent_vol)} ${v2Unit} of diluent (bringing the total volume to ${formatResult(v2_target)} ${v2Unit}).`);
       }
       else if (target === 'c1') {
         if (isNaN(v1Val) || isNaN(c2Val) || isNaN(v2Val)) return;
-        if (v1Val <= 0 || c2Val <= 0 || v2Val <= 0) throw new Error('浓度和体积必须大于 0');
+        if (v1Val <= 0 || c2Val <= 0 || v2Val <= 0) throw new Error('Concentration and Volume must be greater than 0');
 
         const c2Base = convertConcToBase(c2Val, c2Unit, mwVal);
         const v1L = v1Val * fV1;
@@ -192,11 +192,11 @@ export default function DilutionCalculator() {
 
         setC1(formatResult(c1_target));
         setStdFormula(`C₁ = (C₂ × V₂) / V₁ = (${c2Val} ${c2Unit} × ${v2Val} ${v2Unit}) / ${v1Val} ${v1Unit}`);
-        setStdOperation(`需使用浓度为 ${formatResult(c1_target)} ${c1Unit} 的初始母液进行本配方配制。`);
+        setStdOperation(`Use an initial stock solution with concentration of ${formatResult(c1_target)} ${c1Unit} for this preparation.`);
       }
       else if (target === 'c2') {
         if (isNaN(c1Val) || isNaN(v1Val) || isNaN(v2Val)) return;
-        if (c1Val <= 0 || v1Val <= 0 || v2Val <= 0) throw new Error('浓度和体积必须大于 0');
+        if (c1Val <= 0 || v1Val <= 0 || v2Val <= 0) throw new Error('Concentration and Volume must be greater than 0');
 
         const c1Base = convertConcToBase(c1Val, c1Unit, mwVal);
         const v1L = v1Val * fV1;
@@ -210,7 +210,7 @@ export default function DilutionCalculator() {
         setStdFormula(`C₂ = (C₁ × V₁) / V₂ = (${c1Val} ${c1Unit} × ${v1Val} ${v1Unit}) / ${v2Val} ${v2Unit}`);
         
         const solvent_vol = (v2L - v1L) / fV2;
-        setStdOperation(`配制完成后的目标溶液浓度为 ${formatResult(c2_target)} ${c2Unit}。操作过程：在 ${formatResult(solvent_vol)} ${v2Unit} 溶剂中混入 ${v1Val} ${v1Unit} 初始溶液。`);
+        setStdOperation(`The final solution concentration will be ${formatResult(c2_target)} ${c2Unit}. Operation: Mix ${v1Val} ${v1Unit} of initial solution into ${formatResult(solvent_vol)} ${v2Unit} of diluent.`);
       }
     } catch (e: any) {
       setStdError(e.message);
@@ -249,8 +249,8 @@ export default function DilutionCalculator() {
         concentration: parseFloat(currentConc.toFixed(5)),
         logConc: parseFloat(logVal.toFixed(4)),
         operation: i === 1 
-          ? `吸取 ${formatResult(transferVol)} ${volUnit} 母液(C0)，加入含有 ${formatResult(solventVol)} ${volUnit} 溶剂的1号管中混匀。`
-          : `吸取 ${formatResult(transferVol)} ${volUnit} 上一级溶液(C${i-1})，加入含有 ${formatResult(solventVol)} ${volUnit} 溶剂的${i}号管中混匀。`
+          ? `Pipette ${formatResult(transferVol)} ${volUnit} of stock solution (C0) into Tube 1 containing ${formatResult(solventVol)} ${volUnit} of diluent and mix.`
+          : `Pipette ${formatResult(transferVol)} ${volUnit} of preceding solution (C${i-1}) into Tube ${i} containing ${formatResult(solventVol)} ${volUnit} of diluent and mix.`
       });
     }
     setSerialResults(results);
@@ -296,17 +296,17 @@ export default function DilutionCalculator() {
     <div className="calculator-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>稀释计算器</h2>
+          <h2 className="glow-title" style={{ fontSize: '28px', textAlign: 'left' }}>Dilution Calculator</h2>
           <p style={{ color: 'var(--color-secondary)', fontSize: '14px', textAlign: 'left', marginTop: '4px' }}>
-            标准稀释配比与多梯度连续稀释方案生成
+            Standard dilutions (C₁V₁ = C₂V₂) and serial dilution SOP generator
           </p>
         </div>
         <div className="tabs-container">
           <button className={`tab-btn ${activeTab === 'standard' ? 'active' : ''}`} onClick={() => setActiveTab('standard')}>
-            <Layers size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> 标准稀释 (C₁V₁ = C₂V₂)
+            <Layers size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Standard Dilution (C₁V₁ = C₂V₂)
           </button>
           <button className={`tab-btn ${activeTab === 'serial' ? 'active' : ''}`} onClick={() => setActiveTab('serial')}>
-            <TrendingDown size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> 连续梯度稀释
+            <TrendingDown size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> Serial Dilution
           </button>
         </div>
       </div>
@@ -320,19 +320,19 @@ export default function DilutionCalculator() {
             {stdError && <div className="alert-glass alert-glass-danger">{stdError}</div>}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '14px', color: 'var(--color-secondary)' }}>求解目标:</span>
+              <span style={{ fontSize: '14px', color: 'var(--color-secondary)' }}>Target:</span>
               <div className="tabs-container">
-                <button className={`tab-btn ${target === 'v1' ? 'active' : ''}`} onClick={() => setTarget('v1')}>初始体积 (V₁)</button>
-                <button className={`tab-btn ${target === 'v2' ? 'active' : ''}`} onClick={() => setTarget('v2')}>目标体积 (V₂)</button>
-                <button className={`tab-btn ${target === 'c1' ? 'active' : ''}`} onClick={() => setTarget('c1')}>初始浓度 (C₁)</button>
-                <button className={`tab-btn ${target === 'c2' ? 'active' : ''}`} onClick={() => setTarget('c2')}>目标浓度 (C₂)</button>
+                <button className={`tab-btn ${target === 'v1' ? 'active' : ''}`} onClick={() => setTarget('v1')}>Sample Vol (V₁)</button>
+                <button className={`tab-btn ${target === 'v2' ? 'active' : ''}`} onClick={() => setTarget('v2')}>Final Vol (V₂)</button>
+                <button className={`tab-btn ${target === 'c1' ? 'active' : ''}`} onClick={() => setTarget('c1')}>Initial Conc (C₁)</button>
+                <button className={`tab-btn ${target === 'c2' ? 'active' : ''}`} onClick={() => setTarget('c2')}>Final Conc (C₂)</button>
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               {/* C1 */}
               <div style={paramCardStyle(target === 'c1')}>
-                <label className="label-glass">初始浓度 (C₁)</label>
+                <label className="label-glass">Initial Conc (C₁)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -340,7 +340,7 @@ export default function DilutionCalculator() {
                     value={c1}
                     onChange={(e) => setC1(e.target.value)}
                     disabled={target === 'c1'}
-                    placeholder="计算所得..."
+                    placeholder="Calculated..."
                   />
                   <select
                     className="input-glass select-glass"
@@ -355,7 +355,7 @@ export default function DilutionCalculator() {
 
               {/* V1 */}
               <div style={paramCardStyle(target === 'v1')}>
-                <label className="label-glass">需取体积 (V₁)</label>
+                <label className="label-glass">Sample Vol (V₁)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -363,7 +363,7 @@ export default function DilutionCalculator() {
                     value={v1}
                     onChange={(e) => setV1(e.target.value)}
                     disabled={target === 'v1'}
-                    placeholder="计算所得..."
+                    placeholder="Calculated..."
                   />
                   <select
                     className="input-glass select-glass"
@@ -378,7 +378,7 @@ export default function DilutionCalculator() {
 
               {/* C2 */}
               <div style={paramCardStyle(target === 'c2')}>
-                <label className="label-glass">目标浓度 (C₂)</label>
+                <label className="label-glass">Final Conc (C₂)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -386,7 +386,7 @@ export default function DilutionCalculator() {
                     value={c2}
                     onChange={(e) => setC2(e.target.value)}
                     disabled={target === 'c2'}
-                    placeholder="计算所得..."
+                    placeholder="Calculated..."
                   />
                   <select
                     className="input-glass select-glass"
@@ -401,7 +401,7 @@ export default function DilutionCalculator() {
 
               {/* V2 */}
               <div style={paramCardStyle(target === 'v2')}>
-                <label className="label-glass">目标体积 (V₂)</label>
+                <label className="label-glass">Final Vol (V₂)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -409,7 +409,7 @@ export default function DilutionCalculator() {
                     value={v2}
                     onChange={(e) => setV2(e.target.value)}
                     disabled={target === 'v2'}
-                    placeholder="计算所得..."
+                    placeholder="Calculated..."
                   />
                   <select
                     className="input-glass select-glass"
@@ -427,7 +427,7 @@ export default function DilutionCalculator() {
             {isMixedSystemActive() && (
               <div style={{ padding: '12px 16px', borderRadius: '12px', background: 'rgba(161,84,255,0.05)', border: '1px solid rgba(161,84,255,0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: '13px', color: 'var(--color-secondary)' }}>
-                  检测到摩尔浓度与质量百分比跨体系稀释，需要提供溶质分子量进行换算：
+                  Cross-system dilution detected. Solute molecular weight (MW) is required:
                 </span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <input
@@ -436,7 +436,7 @@ export default function DilutionCalculator() {
                     style={{ width: '120px', padding: '6px 10px' }}
                     value={mw}
                     onChange={(e) => setMw(e.target.value)}
-                    placeholder="分子量..."
+                    placeholder="MW..."
                   />
                   <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>g/mol</span>
                 </div>
@@ -446,7 +446,7 @@ export default function DilutionCalculator() {
             {/* Formula display */}
             <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: '16px', marginTop: '10px' }}>
               <span className="label-glass" style={{ marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <HelpCircle size={14} /> 计算公式推导
+                <HelpCircle size={14} /> Formula & Derivation
               </span>
               <div className="input-glass-mono" style={{ background: 'rgba(0,0,0,0.2)', padding: '14px', borderRadius: '10px', fontSize: '13px', border: '1px solid rgba(255,255,255,0.03)' }}>
                 <div style={{ color: 'var(--neon-cyan)', fontSize: '14px', marginBottom: '4px' }}>
@@ -459,7 +459,7 @@ export default function DilutionCalculator() {
           {/* Right panel: Operation card */}
           <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <h3 style={{ fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }} className="glow-title">
-              <FileText size={16} /> 稀释操作说明书
+              <FileText size={16} /> Dilution Instructions
             </h3>
             {stdOperation ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -467,15 +467,15 @@ export default function DilutionCalculator() {
                   {stdOperation}
                 </div>
                 <div style={{ fontSize: '12px', color: 'var(--color-muted)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span>※ 注意：量取微小体积液体时，请使用校准过的微量移液枪。</span>
-                  <span>※ 混合后请进行充分涡旋混匀，确保浓度均一。</span>
+                  <span>* Note: Use calibrated micropipettes for handling microliter volumes.</span>
+                  <span>* Vortex thoroughly after mixing to ensure a homogeneous solution.</span>
                 </div>
               </div>
             ) : (
-              <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>请输入参数以生成操作指引...</p>
+              <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>Enter parameters to generate instructions...</p>
             )}
             <button className="btn btn-glass" style={{ marginTop: 'auto' }} onClick={handleResetStd}>
-              <RefreshCw size={14} /> 重置本板
+              <RefreshCw size={14} /> Reset Panel
             </button>
           </div>
         </div>
@@ -488,12 +488,12 @@ export default function DilutionCalculator() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           {/* Left Config */}
           <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <h3 style={{ fontSize: '16px' }} className="glow-title">梯度稀释参数设置</h3>
+            <h3 style={{ fontSize: '16px' }} className="glow-title">Serial Dilution Settings</h3>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {/* C0 */}
               <div>
-                <label className="label-glass">母液初始浓度 (C₀)</label>
+                <label className="label-glass">Stock Concentration (C₀)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -514,19 +514,19 @@ export default function DilutionCalculator() {
 
               {/* Dilution Factor */}
               <div>
-                <label className="label-glass">稀释倍数 (如: 10表示1:10稀释)</label>
+                <label className="label-glass">Dilution Factor (e.g. 10 for 1:10)</label>
                 <input
                   type="number"
                   className="input-glass input-glass-mono"
                   value={dilutionFactor}
                   onChange={(e) => setDilutionFactor(e.target.value)}
-                  placeholder="如: 10, 2, 5"
+                  placeholder="e.g. 10, 2, 5"
                 />
               </div>
 
               {/* Tube volume desired */}
               <div>
-                <label className="label-glass">单管稀释总体积 (V_total)</label>
+                <label className="label-glass">Volume per Tube (V_total)</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     type="number"
@@ -547,7 +547,7 @@ export default function DilutionCalculator() {
 
               {/* Steps count */}
               <div>
-                <label className="label-glass">稀释梯度级数 (2 - 12)</label>
+                <label className="label-glass">Dilution Steps (2 - 12)</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <input
                     type="range"
@@ -564,7 +564,7 @@ export default function DilutionCalculator() {
 
             {/* Serial Results List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '250px' }} className="custom-scrollbar">
-              <span className="label-glass">梯度稀释步骤清单</span>
+              <span className="label-glass">Serial Dilution Steps Checklist</span>
               {serialResults.map((r) => (
                 <div
                   key={r.step}
@@ -580,10 +580,10 @@ export default function DilutionCalculator() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>{r.step} 梯度管</strong>
+                    <strong style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>{r.step} Tube</strong>
                     <div>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>{r.concentration} {c0Unit}</span>
-                      <span style={{ color: 'var(--color-muted)', fontSize: '11px', marginLeft: '8px' }}>Log值: {r.logConc}</span>
+                      <span style={{ color: 'var(--color-muted)', fontSize: '11px', marginLeft: '8px' }}>Log: {r.logConc}</span>
                     </div>
                   </div>
                   <div style={{ color: 'var(--color-secondary)' }}>{r.operation}</div>
@@ -592,14 +592,14 @@ export default function DilutionCalculator() {
             </div>
 
             <button className="btn btn-glass" style={{ alignSelf: 'flex-start' }} onClick={handleResetSerial}>
-              <RefreshCw size={14} /> 重置参数
+              <RefreshCw size={14} /> Reset Parameters
             </button>
           </div>
 
           {/* Right Chart display */}
           <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <h3 style={{ fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px' }} className="glow-title">
-              <TrendingDown size={16} /> 半对数稀释曲线 (Log₁₀ C vs Step)
+              <TrendingDown size={16} /> Semi-Log Dilution Curve (Log₁₀ C vs Step)
             </h3>
             
             <div style={{ width: '100%', height: '320px', background: 'rgba(0,0,0,0.15)', borderRadius: '12px', padding: '10px', border: '1px solid var(--border-glass)' }}>
@@ -635,14 +635,14 @@ export default function DilutionCalculator() {
                 </ResponsiveContainer>
               ) : (
                 <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--color-muted)' }}>
-                  请输入有效参数以绘制曲线图
+                  Enter valid parameters to plot the curve
                 </div>
               )}
             </div>
             <div style={{ fontSize: '12px', color: 'var(--color-secondary)', lineHeight: '1.5' }}>
-              <strong>图表物理意义：</strong>
+              <strong>Scientific Significance:</strong>
               <p style={{ marginTop: '2px' }}>
-                在标准的生物及化学实验验证中，半对数坐标系（纵轴为浓度的以 10 为底的对数）能将呈指数衰减的梯度浓度拟合为一条笔直的线性下降轨迹。这极其方便绘制 ELISA 标准曲线或评估功效成分的 IC₅₀（半抑制浓度）区间。
+                In bio-chemical assays, a semi-log plot (where the y-axis is the log10 of concentration) linearizes the exponential decay of serial dilutions. This facilitates the construction of standard calibration curves (such as ELISA) and the evaluation of active ingredients' IC₅₀ values.
               </p>
             </div>
           </div>
