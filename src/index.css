@@ -1,0 +1,383 @@
+/* ==========================================================================
+   DESIGN SYSTEM - DARK GLASSMORPHISM
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --bg-dark: #07070c;
+  --bg-glass: rgba(16, 16, 28, 0.55);
+  --bg-glass-hover: rgba(22, 22, 38, 0.7);
+  --bg-glass-active: rgba(28, 28, 48, 0.8);
+  
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-focus: rgba(0, 242, 254, 0.4);
+  --border-glass-active: rgba(161, 84, 255, 0.4);
+  
+  --color-primary: #f3f4f6;
+  --color-secondary: #9ca3af;
+  --color-muted: #6b7280;
+  
+  /* Cyber Neons */
+  --neon-cyan: #00f2fe;
+  --neon-violet: #a154ff;
+  --neon-emerald: #05f3a2;
+  --neon-amber: #f59e0b;
+  --neon-rose: #ff4e6a;
+  
+  --gradient-cyber: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-violet) 100%);
+  --gradient-emerald: linear-gradient(135deg, #10b981 0%, var(--neon-emerald) 100%);
+  --gradient-rose: linear-gradient(135deg, #f43f5e 0%, var(--neon-rose) 100%);
+  
+  /* Typography */
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  /* Shadows & Filters */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-neon-cyan: 0 0 15px rgba(0, 242, 254, 0.3);
+  --shadow-neon-violet: 0 0 15px rgba(161, 84, 255, 0.3);
+  --blur-amount: blur(16px) saturate(180%);
+  
+  /* Animations */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   AMBIENT GLOWING BACKGROUND
+   ========================================================================== */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #0c0d1b 0%, #050508 100%);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(130px);
+  opacity: 0.23;
+  pointer-events: none;
+}
+
+.orb-1 {
+  top: -10%;
+  left: 10%;
+  width: 45vw;
+  height: 45vw;
+  background: var(--neon-cyan);
+  animation: float-orb-1 25s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+  bottom: -15%;
+  right: 5%;
+  width: 50vw;
+  height: 50vw;
+  background: var(--neon-violet);
+  animation: float-orb-2 30s infinite alternate ease-in-out;
+}
+
+.orb-3 {
+  top: 30%;
+  right: 15%;
+  width: 35vw;
+  height: 35vw;
+  background: var(--neon-emerald);
+  animation: float-orb-3 20s infinite alternate ease-in-out;
+  opacity: 0.12;
+}
+
+@keyframes float-orb-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(10%, 15%) scale(1.15); }
+}
+
+@keyframes float-orb-2 {
+  0% { transform: translate(0, 0) scale(1.1); }
+  100% { transform: translate(-15%, -10%) scale(0.9); }
+}
+
+@keyframes float-orb-3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  100% { transform: translate(-8%, 12%) scale(1.2); }
+}
+
+/* ==========================================================================
+   APP GRID LAYOUT
+   ========================================================================== */
+#root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  gap: 16px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 80px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    padding: 10px;
+    gap: 10px;
+  }
+}
+
+/* ==========================================================================
+   GLASS COMMON UI CLASSES
+   ========================================================================== */
+.glass-panel {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: var(--blur-amount);
+  -webkit-backdrop-filter: var(--blur-amount);
+  transition: border-color var(--transition-normal), background var(--transition-normal);
+}
+
+.glass-panel-hover:hover {
+  background: var(--bg-glass-hover);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   SCROLLBAR STYLES
+   ========================================================================== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   FORM & INTERACTIVE CONTROLS
+   ========================================================================== */
+.input-glass {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding: 10px 14px;
+  transition: all var(--transition-fast);
+  outline: none;
+  width: 100%;
+}
+
+.input-glass:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: var(--shadow-neon-cyan);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.input-glass::placeholder {
+  color: var(--color-muted);
+}
+
+.input-glass-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+/* Select element wrapper styling */
+.select-glass {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(243, 244, 246, 0.6)' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Label styling */
+.label-glass {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  margin-bottom: 6px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--gradient-cyber);
+  color: #07070c;
+  box-shadow: var(--shadow-neon-cyan);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(0, 242, 254, 0.5), 0 0 22px rgba(161, 84, 255, 0.5);
+  opacity: 0.95;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-glass);
+  color: var(--color-primary);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-danger {
+  background: var(--gradient-rose);
+  color: #07070c;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(255, 78, 106, 0.4);
+}
+
+.btn-success {
+  background: var(--gradient-emerald);
+  color: #07070c;
+}
+
+.btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(5, 243, 162, 0.4);
+}
+
+/* ==========================================================================
+   ALERTS & NOTIFICATIONS
+   ========================================================================== */
+.alert-glass {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #fbd38d;
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.alert-glass-danger {
+  background: rgba(255, 78, 106, 0.1);
+  border: 1px solid rgba(255, 78, 106, 0.3);
+  color: #fecaca;
+}
+
+/* ==========================================================================
+   COMMON TAB BAR & SWITCH
+   ========================================================================== */
+.tabs-container {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border-glass);
+  width: fit-content;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tab-btn.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   HEADING STYLE
+   ========================================================================== */
+.glow-title {
+  background: linear-gradient(to right, #ffffff, #c7d2fe, var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
