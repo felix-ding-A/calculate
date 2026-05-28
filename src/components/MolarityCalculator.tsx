@@ -243,10 +243,10 @@ export default function MolarityCalculator() {
       return u ? u.factor / 1e3 : 1.0; // Standardize to grams in calculations
     } else if (type === 'conc') {
       const u = CONC_UNITS.find(x => x.label === unit);
-      return u ? u.factor : 1.0; // standard M
+      return u ? u.factor / 1e3 : 1.0; // Standardize to M
     } else if (type === 'volume') {
       const u = VOL_UNITS.find(x => x.label === unit);
-      return u ? u.factor : 1.0; // standard L
+      return u ? u.factor / 1e3 : 1.0; // Standardize to L
     }
     return 1.0;
   };
